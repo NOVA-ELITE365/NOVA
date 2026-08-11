@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NOVA Trader Journal</title>
+<style>
+:root{--bg:#06101d;--card:#0b1c30;--card2:#0e243c;--line:#1b456b;--blue:#148cff;--text:#f2f7fc;--muted:#8faec9;--green:#28d58b;--red:#ff5d6c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;padding-bottom:82px}
+header{padding:22px 18px 18px;background:linear-gradient(145deg,#061529,#0a2a4a);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.logo{font-size:25px;font-weight:900;letter-spacing:.5px}.logo span{color:var(--blue)}header small{color:#83c5ff}
+main{max-width:720px;margin:auto;padding:15px}.screen{display:none}.screen.active{display:block}
+.hero{background:linear-gradient(145deg,#0b2440,#092038);border:1px solid #1d5686;border-radius:20px;padding:18px;margin-bottom:14px}
+.hero h2{margin:0 0 6px;font-size:22px}.hero p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#071727;border:1px solid #163b5d;border-radius:15px;padding:14px}.stat span{color:var(--muted);font-size:12px}.stat b{display:block;font-size:23px;margin-top:5px}
+.card{background:var(--card);border:1px solid #173d60;border-radius:18px;padding:16px;margin-bottom:14px}h3{margin:0 0 13px;font-size:18px}
+label{display:block;color:#9fc0dc;font-size:12px;margin:11px 0 5px}input,select,textarea{width:100%;border:1px solid #285578;background:#071625;color:white;border-radius:11px;padding:12px;font-size:15px;outline:none}textarea{min-height:75px;resize:vertical}
+button{border:0;border-radius:12px;padding:13px 15px;font-weight:800;color:white;background:var(--blue);font-size:14px}button.secondary{background:#173754}button.danger{background:#842735}.wide{width:100%;margin-top:14px}.toprow{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.trade{border:1px solid #1d476b;border-radius:14px;padding:14px;margin:10px 0;background:#08192a}.trade.win{border-left:4px solid var(--green)}.trade.loss{border-left:4px solid var(--red)}.trade b{font-size:16px}.meta{color:var(--muted);font-size:12px;margin-top:5px}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.chip{background:#102c46;border-radius:20px;padding:5px 8px;font-size:11px;color:#b8d8f2}
+.empty{text-align:center;color:var(--muted);padding:25px 5px}.positive{color:var(--green)}.negative{color:var(--red)}
+nav{position:fixed;bottom:0;left:0;right:0;background:#07111d;border-top:1px solid #193b5a;display:grid;grid-template-columns:repeat(3,1fr);z-index:10;padding-bottom:env(safe-area-inset-bottom)}nav button{background:transparent;border-radius:0;color:#7897b1;padding:11px 5px 10px;font-size:12px}nav button.active{color:#fff}nav strong{display:block;font-size:20px;margin-bottom:2px}
+.preview{max-width:100%;max-height:180px;border-radius:10px;margin-top:8px;display:none}
+@media(max-width:480px){.grid{grid-template-columns:1fr 1fr}.hero h2{font-size:20px}}
+</style>
+<link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#061529"></head>
+<body>
+<header><div class="logo">NOVA <span>DZIENNIK TRADERA</span></div><small>Planuj. Analizuj. Doskonal się.</small></header>
+
+<main>
+<section id="home" class="screen active">
+<div class="hero"><h2>Twój trading. Twoje dane. 📈</h2><p>Każdy trade zapisany. Każdy błąd daje Ci informację.</p></div>
+<div class="card"><h3>📊 Wyniki</h3><div class="grid">
+<div class="stat"><span>Trade'y</span><b id="sCount">0</b></div><div class="stat"><span>Wygrane</span><b id="sWins">0</b></div>
+<div class="stat"><span>Skuteczność</span><b id="sRate">0%</b></div><div class="stat"><span>Wynik</span><b id="sProfit">$0.00</b></div>
+</div></div>
+<div class="card"><div class="toprow"><h3>🕐 Ostatnie trade'y</h3><button class="secondary" onclick="show('history')">Historia</button></div><div id="recent"></div></div>
+<button class="wide" onclick="show('new')">＋ DODAJ NOWY TRADE</button>
+</section>
+
+<section id="new" class="screen">
+<div class="card"><h3>➕ Nowy trade</h3>
+<div class="grid">
+<div><label>Data i godzina</label><input id="date" type="datetime-local"></div>
+<div><label>Instrument</label><input id="instrument" placeholder="XAUUSD / BTCUSD / US30"></div>
+<div><label>Kierunek</label><select id="side"><option>BUY</option><option>SELL</option></select></div>
+<div><label>Wynik ($)</label><input id="result" type="number" step=".01" placeholder="np. 35"></div>
+<div><label>ENTRY</label><input id="entry" placeholder="Cena wejścia"></div><div><label>SL</label><input id="sl" placeholder="Stop Loss"></div>
+<div><label>TP</label><input id="tp" placeholder="Take Profit"></div><div><label>Ryzyko (%)</label><input id="risk" type="number" step=".1" placeholder="1"></div>
+<div><label>Pozycja (lot)</label><input id="lot" placeholder=".10"></div><div><label>Setup</label><input id="setup" placeholder="Breakout / Pullback..."></div>
+<div><label>Ocena setupu</label><select id="grade"><option>A</option><option>B</option><option>C</option><option>D</option><option>F</option></select></div>
+<div><label>Emocje przed wejściem 1–10</label><input id="emotion" type="number" min="1" max="10"></div>
+</div>
+<label>🎯 Powód wejścia</label><textarea id="reason" placeholder="Co zobaczyłem na wykresie?"></textarea>
+<label>🧠 Psychologia</label><textarea id="psych" placeholder="FOMO? Spokój? Odwet? Czy trzymałem plan?"></textarea>
+<label>✅ Co zrobiłem dobrze?</label><textarea id="good"></textarea>
+<label>❌ Co zrobiłem źle / co poprawić?</label><textarea id="bad"></textarea>
+<label>💡 Wniosek</label><textarea id="lesson"></textarea>
+<label>📸 Screenshot (opcjonalnie)</label><input id="shot" type="file" accept="image/*" onchange="previewShot(event)"><img id="preview" class="preview">
+<button class="wide" onclick="save()">💾 ZAPISZ TRADE</button>
+</div></section>
+
+<section id="history" class="screen">
+<div class="card"><div class="toprow"><h3>📚 Historia</h3><button class="danger" onclick="clearAll()">Wyczyść</button></div><div id="historyList"></div></div>
+</section>
+</main>
+
+<nav><button id="nhome" class="active" onclick="show('home')"><strong>⌂</strong>Start</button><button id="nnew" onclick="show('new')"><strong>＋</strong>Nowy trade</button><button id="nhistory" onclick="show('history')"><strong>☷</strong>Historia</button></nav>
+
+<script>
+const KEY='nova_trader_v2';let trades=JSON.parse(localStorage.getItem(KEY)||'[]'),imageData='';
+const $=x=>document.getElementById(x);
+function now(){return new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16)}
+$('date').value=now();
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));$('n'+id).classList.add('active');render();scrollTo(0,0)}
+function previewShot(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{imageData=r.result;$('preview').src=imageData;$('preview').style.display='block'};r.readAsDataURL(f)}
+function val(id){return $(id).value}
+function save(){
+let t={date:val('date'),instrument:val('instrument').trim(),side:val('side'),result:Number(val('result')||0),entry:val('entry'),sl:val('sl'),tp:val('tp'),risk:val('risk'),lot:val('lot'),setup:val('setup'),grade:val('grade'),emotion:val('emotion'),reason:val('reason'),psych:val('psych'),good:val('good'),bad:val('bad'),lesson:val('lesson'),image:imageData};
+if(!t.instrument){alert('Wpisz instrument 🙂');return}
+trades.unshift(t);localStorage.setItem(KEY,JSON.stringify(trades));reset();alert('Trade zapisany ✅');show('home')
+}
+function reset(){document.querySelectorAll('#new input:not(#date),#new textarea').forEach(x=>x.value='');$('date').value=now();$('side').value='BUY';$('grade').value='A';$('shot').value='';$('preview').style.display='none';imageData=''}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function card(t,i){
+let cls=t.result>=0?'win':'loss',sign=t.result>=0?'+':'';
+return `<div class="trade ${cls}"><div class="toprow"><b>${esc(t.instrument)} · ${esc(t.side)}</b><b class="${t.result>=0?'positive':'negative'}">${sign}${t.result.toFixed(2)}$</b></div><div class="meta">${esc(t.date)} · Setup: ${esc(t.setup||'-')}</div><div class="chips"><span class="chip">Ocena ${esc(t.grade)}</span><span class="chip">Emocje ${esc(t.emotion||'-')}/10</span><span class="chip">Ryzyko ${esc(t.risk||'-')}%</span></div><p><b>Entry:</b> ${esc(t.entry||'-')} · <b>SL:</b> ${esc(t.sl||'-')} · <b>TP:</b> ${esc(t.tp||'-')}</p><p><b>Powód:</b> ${esc(t.reason||'-')}</p><p><b>Psychologia:</b> ${esc(t.psych||'-')}</p><p><b>Wniosek:</b> ${esc(t.lesson||'-')}</p>${t.image?`<img class="preview" style="display:block" src="${t.image}">`:''}<button class="danger" onclick="del(${i})">Usuń trade</button></div>`
+}
+function render(){
+let w=trades.filter(t=>t.result>0).length,sum=trades.reduce((a,t)=>a+t.result,0),rate=trades.length?Math.round(w/trades.length*100):0;
+$('sCount').textContent=trades.length;$('sWins').textContent=w;$('sRate').textContent=rate+'%';$('sProfit').textContent=(sum>=0?'+':'')+'$'+sum.toFixed(2);
+$('recent').innerHTML=trades.length?trades.slice(0,3).map(card).join(''):'<div class="empty">Nie masz jeszcze żadnego trade’u.<br>Dodaj pierwszy i zacznij budować historię.</div>';
+$('historyList').innerHTML=trades.length?trades.map(card).join(''):'<div class="empty">Historia jest pusta.</div>'
+}
+function del(i){if(confirm('Usunąć ten trade?')){trades.splice(i,1);localStorage.setItem(KEY,JSON.stringify(trades));render()}}
+function clearAll(){if(trades.length&&confirm('Na pewno usunąć całą historię?')){trades=[];localStorage.removeItem(KEY);render()}}
+render();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}</script></body></html>

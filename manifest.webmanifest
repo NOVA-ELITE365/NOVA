@@ -1,0 +1,9 @@
+{
+  "name": "NOVA Dziennik Tradera",
+  "short_name": "NOVA Trader",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#061426",
+  "theme_color": "#0b78ff",
+  "description": "Osobisty dziennik tradera NOVA"
+}
