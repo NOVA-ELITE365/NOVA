@@ -459,7 +459,28 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
     .nova-line {
         width: 65%;
     }
-}</style>
+  
+  /* ===== WERSJA DESKTOP NOVA ===== */
+
+@media (min-width: 901px) {
+
+    main {
+        max-width: 1200px;
+    }
+
+    .card {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .card > .mini {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
+
+</style>
 </head>
 <body>
 <main>
