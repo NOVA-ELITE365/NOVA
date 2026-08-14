@@ -119,7 +119,37 @@ strong{color:var(--text)}
     min-height:0;
     padding:20px 24px 22px;
 }/* TUTAJ WKLEJ NOWY KOD */
+/* ===== TŁA KAFELKÓW NOVA ===== */
 
+.card > .mini:nth-of-type(1){
+    background:
+        linear-gradient(135deg, rgba(5,15,28,.92), rgba(8,22,40,.82)),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 38px,
+            rgba(218,166,67,.06) 39px,
+            transparent 40px
+        );
+}
+
+.card > .mini:nth-of-type(2){
+    background:
+        radial-gradient(circle at 85% 25%, rgba(214,168,79,.16), transparent 30%),
+        linear-gradient(135deg, rgba(5,15,28,.92), rgba(8,22,40,.82));
+}
+
+.card > .mini:nth-of-type(3){
+    background:
+        radial-gradient(circle at 85% 20%, rgba(214,168,79,.15), transparent 28%),
+        linear-gradient(135deg, rgba(5,15,28,.94), rgba(8,22,40,.84));
+}
+
+.card > .mini:nth-of-type(4){
+    background:
+        radial-gradient(circle at 88% 25%, rgba(214,168,79,.18), transparent 30%),
+        linear-gradient(135deg, rgba(5,15,28,.92), rgba(8,22,40,.82));
+}
   .step{
     border-left:3px solid var(--gold);
     padding:2px 0 2px 16px;
