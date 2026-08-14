@@ -113,6 +113,53 @@ strong{color:var(--text)}
     min-height:0;
     padding:20px 24px 22px;
 }/* TUTAJ WKLEJ NOWY KOD */
+  /* ===== ILUSTRACJE KAFELKÓW NOVA ===== */
+
+.card > .mini{
+    position:relative;
+    overflow:hidden;
+}
+
+.card > .mini::after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:0;
+    width:52%;
+    height:100%;
+    pointer-events:none;
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    opacity:.55;
+    z-index:0;
+}
+
+/* TRADING */
+.card > .mini:nth-of-type(1)::after{
+    background-image:url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80");
+}
+
+/* SPOŁECZNOŚĆ */
+.card > .mini:nth-of-type(2)::after{
+    background-image:url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80");
+}
+
+/* EDUKACJA */
+.card > .mini:nth-of-type(3)::after{
+    background-image:url("https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=900&q=80");
+}
+
+/* WSPARCIE */
+.card > .mini:nth-of-type(4)::after{
+    background-image:url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80");
+}
+
+/* tekst zawsze nad ilustracją */
+.card > .mini > *{
+    position:relative;
+    z-index:1;
+}
 /* ===== TŁA KAFELKÓW NOVA ===== */
 
 /* 01 — TRADING */
