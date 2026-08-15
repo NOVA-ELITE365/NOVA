@@ -480,12 +480,195 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
         margin: 0;
     }
 
-</style>
-</head>
+/* ===== MENU NOVA ===== */
+
+.nova-menu {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 9999;
+}
+
+.nova-menu-btn {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(245, 210, 100, 0.55);
+    border-radius: 14px;
+    background: rgba(5, 5, 5, 0.88);
+    color: #f5d264;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,.45);
+    backdrop-filter: blur(10px);
+    transition: .25s ease;
+}
+
+.nova-menu-btn:hover {
+    border-color: #f5d264;
+    box-shadow: 0 0 22px rgba(245, 210, 100, .22);
+    transform: translateY(-1px);
+}
+
+.nova-menu-panel {
+    position: absolute;
+    top: 58px;
+    left: 0;
+
+    width: 285px;
+    padding: 22px 16px 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,15,15,.98),
+            rgba(5,5,5,.97)
+        );
+
+    border: 1px solid rgba(245, 210, 100, .38);
+    border-radius: 20px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.65),
+        0 0 35px rgba(245,210,100,.08);
+
+    backdrop-filter: blur(15px);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(.97);
+    transform-origin: top left;
+
+    transition:
+        opacity .22s ease,
+        transform .22s ease,
+        visibility .22s ease;
+}
+
+.nova-menu-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.nova-menu-title {
+    color: #f5d264;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(245,210,100,.22);
+}
+
+.nova-menu-panel a {
+    display: block;
+    padding: 13px 12px;
+    margin: 3px 0;
+
+    color: #f1f1f1;
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    border-radius: 10px;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        padding-left .2s ease;
+}
+
+.nova-menu-panel a:hover {
+    color: #f5d264;
+    background: rgba(245,210,100,.08);
+    padding-left: 17px;
+}
+
+.nova-menu-panel a::first-letter {
+    color: #f5d264;
+}
+
+/* małe ekrany */
+
+@media (max-width: 480px) {
+
+    .nova-menu {
+        top: 14px;
+        left: 14px;
+    }
+
+    .nova-menu-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+    }
+
+    .nova-menu-panel {
+        top: 54px;
+        width: calc(100vw - 42px);
+        max-width: 285px;
+    }
+
+    .nova-menu-panel a {
+        font-size: 14px;
+        padding: 12px 10px;
+    }
+}</style>
+</head><!-- ===== MENU NOVA ===== -->
+
+<div class="nova-menu">
+
+  <button class="nova-menu-btn" id="novaMenuBtn" aria-label="Otwórz menu">
+    ☰
+  </button>
+
+  <div class="nova-menu-panel" id="novaMenuPanel">
+
+    <div class="nova-menu-title">
+      NOVA
+      <span>NAWIGACJA</span>
+    </div>
+
+    <div class="nova-menu-links">
+
+      <a href="#start" class="nova-menu-link">
+        <strong>01</strong>
+        <span>Start NOVA</span>
+      </a>
+
+      <a href="#poznaj" class="nova-menu-link">
+        <strong>02</strong>
+        <span>Poznaj NOVA</span>
+      </a>
+
+      <a href="#dziennik" class="nova-menu-link">
+        <strong>03</strong>
+        <span>Dziennik Tradera</span>
+      </a>
+
+      <a href="#mozliwosci" class="nova-menu-link">
+        <strong>04</strong>
+        <span>A co z możliwościami?</span>
+      </a>
+
+      <a href="#kontakt" class="nova-menu-link">
+        <strong>05</strong>
+        <span>Masz pytanie?</span>
+      </a>
+
+    </div>
+
+  </div>
+</div>
 <body>
 <main>
 
-<section class="nova-welcome">
+<section class="nova-welcome" id="start">
 
 
     <div class="market-bg" aria-hidden="true">
@@ -578,7 +761,7 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
 </section>
     
 
-<section class="card" id="nova-info">
+<section class="card" id="poznaj">
     <h2>01. Czym jest NOVA?</h2>
   <p>
     NOVA to Polska społeczność połączona z platformą UNIQ. To miejsce dla osób zainteresowanych rozwojem, edukacją, tradingiem i działaniem online.
@@ -613,8 +796,8 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
   </div>
 </section>
 
-<section class="card">
-  <h2>03. Jak wygląda start?</h2>
+<section class="card" id="start-jak">
+<h2>03. Jak wygląda start?</h2>
 
   <div class="step">
     <div class="num">01</div>
@@ -647,8 +830,8 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
   </div>
 </section>
 
-<section class="card">
-    <h2>04. Poznaj NOVA bliżej</h2>
+<section class="card" id="poznaj-blizej">
+  <h2>04. Poznaj NOVA bliżej</h2>
 
     <p>
         Nie musisz od razu podejmować żadnej decyzji.
@@ -663,9 +846,8 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
     </div>
 </section>
 
-<section class="card journal">
+<section class="card journal" id="dziennik">
   <h2>05. Dziennik Tradera</h2>
-
   <p>
     To narzędzie, które pomoże Ci prowadzić własne transakcje,
     analizować decyzje i wyciągać wnioski z każdego zagrania.
@@ -677,8 +859,8 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
   </p>
 </section>
 
-<section class="card">
-<h2>06. A co z możliwościami?</h2>
+<section class="card" id="mozliwosci">
+  <h2>06. A co z możliwościami?</h2>
 
 <p>
 NOVA to przestrzeń, w której możesz bliżej poznać trading, rozwój i działanie online.
@@ -688,7 +870,7 @@ Działanie online to z kolei rozwój umiejętności, komunikacji i pracy z ludź
 </p>
 </section>
 
-<section class="card">
+<section class="card" id="kontakt">
   <h2>07. Masz pytanie?</h2>
   <p>
   Jeśli NOVA Cię zaciekawiła, odezwij się. Możemy spokojnie porozmawiać,
@@ -709,5 +891,19 @@ Działanie online to z kolei rozwój umiejętności, komunikacji i pracy z ludź
 <footer>NOVA • Prostota • Normalność • Konsekwencja</footer>
 
 </main>
-</body>
+<script>
+const menuBtn = document.querySelector('.nova-menu-btn');
+const menuPanel = document.querySelector('.nova-menu-panel');
+const menuLinks = document.querySelectorAll('.nova-menu-link');
+
+menuBtn.addEventListener('click', () => {
+    menuPanel.classList.toggle('active');
+});
+
+menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        menuPanel.classList.remove('active');
+    });
+});
+</script></body>
 </html>
