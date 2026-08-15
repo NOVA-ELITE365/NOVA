@@ -1,97 +1,36 @@
 <!doctype html>
 <html lang="pl">
-<głowa>
-<meta charset="utf-8"><meta name="viewport" content="szerokość=szerokość-urządzenia,początkowa-skala=1,dopasowanie-widoku=okładka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Dziennik NOVA Trader</title>
-<styl>
-:root{--bg:#06101d;--card:#0b1c30;--card2:#0e243c;--line:#1b456b;--blue:#148cff;--text:#f2f7fc;--muted:#8faec9;--green:#28d58b;--red:#ff5d6c}
-*{box-sizing:border-box}ciało{margines:0;tło:var(--bg);kolor:var(--text);rodzina czcionek:Inter,Arial,sans-serif;padding-bottom:82px}
-nagłówek{wypełnienie:22px 18px 18px;tło:liniowy-gradient(145deg,#061529,#0a2a4a);obramowanie-dolne:1px solidna zmienna(--linia);pozycja:lepka;góra:0;indeks-z:5}
-.logo{rozmiar czcionki: 25px;waga czcionki: 900;odstępy między literami: .5px}.logo span{kolor: var(--niebieski)}nagłówek mały{kolor: #83c5ff}
-główny{maksymalna szerokość: 720px;margines: automatyczny;wypełnienie: 15px}.ekran{wyświetlacz: brak}.ekran.aktywny{wyświetlacz: blok}
-.hero{tło:liniowy-gradient(145 stopni,#0b2440,#092038);obramowanie:1px stałe #1d5686;promień obramowania:20px;wypełnienie:18px;margines-dolny:14px}
-.hero h2{margines:0 0 6px;rozmiar czcionki:22px}.hero p{margines:0;kolor:zmienny(--wyciszony)}
-.grid{display:grid;grid-szablon-kolumny:1fr 1fr;odstęp:10px}.stat{tło:#071727;obramowanie:1px pełne #163b5d;promień obramowania:15px;wypełnienie:14px}.stat span{kolor:zmienny(--wyciszony);rozmiar czcionki:12px}.stat b{display:blok;rozmiar czcionki:23px;margines górny:5px}
-.card{tło:zmienna(--karta);obramowanie:1px stałe #173d60;promień obramowania:18px;wypełnienie:16px;margines dolny:14px}h3{margines:0 0 13px;rozmiar czcionki:18px}
-etykieta{wyświetlanie: blok;kolor: #9fc0dc;rozmiar czcionki: 12px;margines: 11px 0 5px}wejście,wybór,obszar tekstowy{szerokość: 100%;obramowanie: 1px pełne #285578;tło: #071625;kolor:biały;promień obramowania: 11px;wypełnienie: 12px;rozmiar czcionki: 15px;obrys:brak}obszar tekstowy{minimalna wysokość: 75px;zmiana rozmiaru:pionowy}
-przycisk{border:0; promień obramowania:12px; wypełnienie:13px 15px; grubość czcionki:800; kolor:biały; tło:zmienne (--niebieskie); rozmiar czcionki:14px}przycisk.drugi{tło:#173754}przycisk.niebezpieczeństwo{tło:#842735}.szeroki{szerokość:100%; margines górny:14px}.górny rząd{wyświetlacz:flex;wyrównanie zawartości:spacja-między;wyrównanie-elementów:środek;odstęp:10px}
-.trade{border:1px solid #1d476b;promień obramowania:14px;wypełnienie:14px;margines:10px 0;tło:#08192a}.trade.win{border-left:4px solid var(--green)}.trade.loss{border-left:4px solid var(--red)}.trade b{rozmiar czcionki:16px}.meta{kolor:var(--muted);rozmiar czcionki:12px;margines górny:5px}.chips{display:flex;odstęp:6px;flex-wrap:wrap;margines górny:8px}.chip{tło:#102c46;promień obramowania:20px;wypełnienie:5px 8px;rozmiar czcionki:11px;kolor:#b8d8f2}
-.empty{text-align:center;color:var(--muted);padding:25px 5px}.positive{color:var(--green)}.negative{color:var(--red)}
-nav{pozycja:stała;dół:0;lewo:0;prawo:0;tło:#07111d;obramowanie-góra:1px solidne #193b5a;wyświetlanie:siatka;kolumny-szablonu-siatki:powtórz(3,1fr);indeks-z:10;wypełnienie-dół:środowisko(bezpieczny-obszar-wstawka-dół)}przycisk nav{tło:przezroczyste;promień-obramowania:0;kolor:#7897b1;wypełnienie:11px 5px 10px;rozmiar-czcionki:12px}przycisk nav.aktywny{kolor:#fff}nav silny{wyświetlanie:blok;rozmiar-czcionki:20px;margines-dół:2px}
-.preview{maksymalna szerokość: 100%;maksymalna wysokość: 180px;promień obramowania: 10px;margines górny: 8px;wyświetlacz: brak}
-@media(maks. szerokość: 480px){.grid{kolumny-szablonu-siatki: 1fr 1fr}.hero h2{rozmiar-czcionki: 20px}}
-</styl>
-<link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#061529"></head>
-<treść>
+<style>
+:root{--bg:#061529;--card:#0b1c30;--line:#1b456b;--blue:#148cff;--text:#f2f7fc;--muted:#8faec9;--green:#28d58b;--red:#ff5d6c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;padding-bottom:82px}header{padding:22px 18px 18px;line-height:1.2;background:linear-gradient(145deg,#061529,#0a2a4a);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}.logo{font-size:25px;font-weight:900;letter-spacing:.5px}.logo span{color:var(--blue)}header small{color:#83c5ff}main{max-width:720px;margin:auto;padding:15px}.screen{display:none}.screen.active{display:block}.hero{background:linear-gradient(145deg,#0b2440,#092038);border:1px solid #1d5686;border-radius:20px;padding:18px;margin-bottom:14px}.hero h2{margin:0 0 6px;font-size:22px}.hero p{margin:0;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#071727;border:1px solid #163b5d;border-radius:18px;padding:14px}.stat span{color:var(--muted);font-size:12px}.stat b{display:block;font-size:23px;margin-top:5px}.card{background:var(--card);border:1px solid #173d60;border-radius:18px;padding:16px;margin-bottom:14px}.toprow{display:flex;justify-content:space-between;align-items:center;gap:10px}h3{margin:0 0 12px}label{display:block;color:#9fc0db;font-size:12px;margin:11px 0 5px}input,select,textarea{width:100%;border:1px solid #285578;background:#071625;color:white;border-radius:12px;padding:12px;font-size:15px;outline:none}textarea{min-height:75px;resize:vertical}button{border:0;border-radius:12px;padding:13px 15px;font-weight:800;color:white;background:var(--blue);font-size:14px}button.secondary{background:#173754}button.danger{background:#842735}.trade{border:1px solid #1d476b;border-radius:14px;padding:14px;margin:10px 0;background:#08192a}.trade.win{border-left:4px solid var(--green)}.trade.loss{border-left:4px solid var(--red)}.trade b{font-size:16px}.meta{color:var(--muted);font-size:12px;margin-top:5px}.chip{display:inline-block;background:#102c46;border-radius:20px;padding:5px 8px;font-size:12px;color:#b8d8f2;margin:7px 5px 0 0}.empty{text-align:center;color:var(--muted);padding:25px 5px}nav{position:fixed;bottom:0;left:0;right:0;background:#07111d;border-top:1px solid #193b5a;display:grid;grid-template-columns:repeat(3,1fr);padding:10px;z-index:10}nav button{background:transparent;color:#7897b1;padding:11px 5px}nav button.active{color:#fff}nav strong{display:block;font-size:20px;margin-bottom:3px}.preview{max-width:100%;max-height:180px;border-radius:10px;margin-top:8px;display:none}@media(max-width:480px){.grid{grid-template-columns:1fr 1fr}.hero h2{font-size:20px}}
+</style>
+<link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#061529">
+</head>
+<body>
 <header><div class="logo">NOVA <span>DZIENNIK TRADERA</span></div><small>Planuj. Analizuj. Doskonal się.</small></header>
-
-<główny>
-<section id="home" class="ekran aktywny">
-<div class="hero"><h2>Twój handel. Twoje dane. 📈</h2><p>Każdy handel zapisany. Każdy błąd podaje Ci informację.</p></div>
-<div class="card"><h3>📊 Wyniki</h3><div class="grid">
-<div class="stat"><span>Wymiana</span><b id="sCount">0</b></div><div class="stat"><span>Wygrane</span><b id="sWins">0</b></div>
-<div class="stat"><span>Skuteczność</span><b id="sRate">0%</b></div><div class="stat"><span>Wynik</span><b id="sProfit">0,00 $</b></div>
-</div></div>
-<div class="card"><div class="toprow"><h3>🕐 Ostatnie transakcje</h3><button class="secondary" onclick="show('history')">Historia</button></div><div id="recent"></div></div>
-<button class="wide" onclick="show('new')">＋ DODAJ NOWY TRADE</button>
-</sekcja>
-
-<section id="new" class="screen">
-<div class="card"><h3>➕ Nowy handel</h3>
-<div class="grid">
-<div><label>Data i godzina</label><input id="date" type="datetime-local"></div>
-<div><label>Instrument</label><input id="instrument" placeholder="XAUUSD / BTCUSD / US30"></div>
-<div><label>Kierunek</label><select id="side"><option>KUP</option><option>SPRZEDAJ</option></select></div>
-<div><label>Wynik ($)</label><input id="result" type="number" step=".01" placeholder="np. 35"></div>
-<div><label>WEJŚCIE</label><input id="entry" placeholder="Cena wejścia"></div><div><label>SL</label><input id="sl" placeholder="Stop Loss"></div>
-<div><label>TP</label><input id="tp" placeholder="Take Profit"></div><div><label>Ryzyko (%)</label><input id="risk" type="number" step=".1" placeholder="1"></div>
-<div><label>Pozycja (lot)</label><input id="lot" placeholder=".10"></div><div><label>Konfiguracja</label><input id="setup" placeholder="Breakout / Pullback..."></div>
-<div><label>Konfiguracja oceanu</label><select id="grade"><option>A</option><option>B</option><option>C</option><option>D</option><option>F</option></select></div>
-<div><label>Emocje przed wejściem 1–10</label><input id="emotion" type="number" min="1" max="10"></div>
-</div>
-<label>🎯 Powód wejścia</label><textarea id="reason" placeholder="Co prowadziem na wykresie?"></textarea>
-<label>🧠 Psychologia</label><textarea id="psych" placeholder="FOMO? Spokój? Odwet? Czy trzymałem plan?"></textarea>
-<label>✅ Co przechowywać dobrze?</label><textarea id="good"></textarea>
-<label>❌ Co źle / co zepsuć?</label><textarea id="bad"></textarea>
-<label>💡 Produkcja</label><textarea id="lesson"></textarea>
-<label>📸 Zrzut ekranu (opcjonalnie)</label><input id="shot" type="file" accept="image/*" onchange="previewShot(event)"><img id="preview" class="preview">
-<button class="wide" onclick="save()">💾 ZAPISZ TRADE</button>
-</div></section>
-
-<section id="historia" class="ekran">
-<div class="card"><div class="toprow"><h3>📚 Historia</h3><button class="danger" onclick="clearAll()">Wyczyść</button></div><div id="historyList"></div></div>
-</sekcja>
+<main>
+<section id="home" class="screen active"><div class="hero"><h2>📈 Twój handel. Twoje dane.</h2><p>Każdy handel zapisany. Każdy błąd daje Ci informację.</p></div><div class="card"><h3>📊 Wyniki</h3><div class="grid"><div class="stat"><span>Trade'y</span><b id="count">0</b></div><div class="stat"><span>Wygrane</span><b id="wins">0</b></div><div class="stat"><span>Skuteczność</span><b id="rate">0%</b></div><div class="stat"><span>Wynik</span><b id="profit">$0.00</b></div></div></div><div class="card"><div class="toprow"><h3>🕘 Ostatnie trade'y</h3><button class="secondary" onclick="show('history')">Historia</button></div><div id="recent" class="empty">Nie masz jeszcze żadnego trade'u.<br>Dodaj pierwszy i zacznij budować historię.</div></div><button style="width:100%;font-size:16px" onclick="show('new')">＋ DODAJ NOWY TRADE</button></section>
+<section id="new" class="screen"><div class="card"><h3>＋ Nowy trade</h3><div class="grid"><div><label>Data i godzina</label><input id="date" type="datetime-local"></div><div><label>Instrument</label><input id="instrument" placeholder="XAUUSD / BTCUSD / US30"></div><div><label>Kierunek</label><select id="side"><option>BUY</option><option>SELL</option></select></div><div><label>Wynik ($)</label><input id="result" type="number" step="0.01" placeholder="np. 35"></div><div><label>ENTRY</label><input id="entry" type="number" step="0.01" placeholder="Cena wejścia"></div><div><label>SL</label><input id="sl" type="number" step="0.01" placeholder="Stop Loss"></div><div><label>TP</label><input id="tp" type="number" step="0.01" placeholder="Take Profit"></div><div><label>Ryzyko (%)</label><input id="risk" type="number" step="0.1" value="1"></div><div><label>Pozycja (lot)</label><input id="lot" type="number" step="0.01" placeholder="0.10"></div><div><label>Setup</label><input id="setup" placeholder="Breakout / Pullback..."></div><div><label>Ocena setupu</label><select id="grade"><option>A</option><option>B</option><option>C</option></select></div><div><label>Emocje przed wejściem 1–10</label><input id="emotion" type="number" min="1" max="10"></div></div><label>🎯 Powód wejścia</label><textarea id="reason" placeholder="Co zobaczyłem na wykresie?"></textarea><label>🧠 Psychologia</label><textarea id="psych" placeholder="FOMO? Spokój? Odwet? Czy trzymałem plan?"></textarea><label>✅ Co zrobiłem dobrze?</label><textarea id="good"></textarea><label>❌ Co zrobiłem źle / co poprawić?</label><textarea id="bad"></textarea><label>📚 Wniosek / lekcja</label><textarea id="lesson"></textarea><label>📸 Zrzut ekranu (opcjonalnie)</label><input id="shot" type="file" accept="image/*" onchange="previewShot(event)"><img id="preview" class="preview"><button style="width:100%;margin-top:14px" onclick="save()">💾 ZAPISZ TRADE</button></div></section>
+<section id="history" class="screen"><div class="card"><div class="toprow"><h3>📚 Historia</h3><button class="danger" onclick="clearAll()">Wyczyść</button></div><div id="historyList"></div></div></section>
 </main>
-
-<nav><button id="nhome" class="active" onclick="show('home')"><strong>⌂</strong>Start</button><button id="nnew" onclick="show('new')"><strong>＋</strong>Nowy handel</button><button id="nhistory" onclick="show('history')"><strong>☷</strong>Historia</button></nav>
-
-<skrypt>
+<nav><button id="nhome" class="active" onclick="show('home')"><strong>⌂</strong>Start</button><button id="nnew" onclick="show('new')"><strong>＋</strong>Nowy trade</button><button id="nhistory" onclick="show('history')"><strong>☷</strong>Historia</button></nav>
+<script>
 const KEY='nova_trader_v2';let trades=JSON.parse(localStorage.getItem(KEY)||'[]'),imageData='';
-const $=x=>document.getElementById(x);
-funkcja teraz(){zwróć nową datę(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16)}
-$('data').wartość=teraz();
-funkcja show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('przycisk nawigacyjny').forEach(x=>x.classList.remove('active'));$('n'+id).classList.add('active');render();scrollTo(0,0)}
-funkcja previewShot(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{imageData=r.result;$('preview').src=imageData;$('preview').style.display='block'};r.readAsDataURL(f)}
-funkcja val(id){return $(id).value}
-funkcja save(){
-niech t={data:val('data'),instrument:val('instrument').trim(),strona:val('strona'),wynik:Liczba(val('wynik')||0),wpis:val('wpis'),sl:val('sl'),tp:val('tp'),ryzyko:val('ryzyko'),partia:val('partia'),ustawienie:val('ustawienie'),stopień:val('stopień'),emocja:val('emocja'),powód:val('powód'),psych:val('psych'),dobry:val('dobry'),zły:val('zły'),lekcja:val('lekcja'),obraz:imageData};
-if(!t.instrument){alert('Wpisz instrument 🙂');return}
-trades.unshift(t);localStorage.setItem(KEY,JSON.stringify(trades));reset();alert('Transakcja zapisana ✅');show('home')
-}
-funkcja reset(){document.querySelectorAll('#nowe dane wejściowe:not(#data),#nowy obszar tekstowy').forEach(x=>x.value='');$('data').value=now();$('strona').value='KUP';$('ocena').value='A';$('strzał').value='';$('podgląd').style.display='brak';imageData=''}
-funkcja esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&','<':'<','>':'>','"':'"',"'":'''}[m]))}
-funkcja karty(t,i){
-niech cls=t.result>=0?'wygrana':'strata',sign=t.result>=0?'+':'';
-zwróć `<div class="trade ${cls}"><div class="toprow"><b>${esc(t.instrument)} · ${esc(t.side)}</b><b class="${t.result>=0?'positive':'negative'}">${sign}${t.result.toFixed(2)}$</b></div><div class="meta">${esc(t.date)} · Konfiguracja: ${esc(t.setup||'-')}</div><div class="chips"><span class="chip">Ocena ${esc(t.grade)}</span><span class="chip">Emocje ${esc(t.emotion||'-')}/10</span><span class="chip">Ryzyko ${esc(t.risk||'-')}%</span></div><p><b>Wpis:</b> ${esc(t.entry||'-')} · <b>SL:</b> ${esc(t.sl||'-')} · <b>TP:</b> ${esc(t.tp||'-')</p><p><b>Powód:</b> ${esc(t.reason||'-')</p><p><b>Psychologia:</b> ${esc(t.psych||'-')</p><p><b>Wniosek:</b> ${esc(t.lesson||'-')</p>${t.image?`<img class="preview" style="display:block" src="${t.image}">`:''}<button class="danger" onclick="del(${i})">Usuń handel</button></div>`
-}
-funkcja render(){
-niech w=trades.filter(t=>t.result>0).length,sum=trades.reduce((a,t)=>a+t.result,0),rate=trades.length?Math.round(w/trades.length*100):0;
-$('sCount').textContent=trades.length;$('sWins').textContent=w;$('sRate').textContent=rate+'%';$('sProfit').textContent=(suma>=0?'+':'')+'$'+sum.toFixed(2);
-$('recent').innerHTML=trades.length?trades.slice(0,3).map(card).join(''):'<div class="empty">Nie masz jeszcze żadnego handlu'u.<br>Dodaj pierwszy i zacznij budować historię.</div>';
-$('historyList').innerHTML=trades.length?trades.map(card).join(''):'<div class="empty">Historia jest pusta.</div>'
-}
-funkcja del(i){if(confirm('Usunąć ten handel?')){trades.splice(i,1);localStorage.setItem(KEY,JSON.stringify(trades));render()}}
-funkcja clearAll(){if(trades.length&&confirm('Na pewno wyczyścić całą historię?')){trades=[];localStorage.removeItem(KEY);render()}}
-oddać();
-</script>
-<script>if('serviceWorker' w nawigatorze){navigator.serviceWorker.register('./sw.js').catch(()=>{});}</script></body></html>
+function nowLocal(){const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16)}document.getElementById('date').value=nowLocal();
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));const b=document.getElementById('n'+id);if(b)b.classList.add('active');if(id==='home')render();if(id==='history')renderHistory();window.scrollTo(0,0)}
+function val(id){return document.getElementById(id).value}
+function previewShot(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{imageData=r.result;const i=document.getElementById('preview');i.src=imageData;i.style.display='block'};r.readAsDataURL(f)}
+function save(){const instrument=val('instrument').trim();if(!instrument){alert('Wpisz instrument 🙂');return}const t={date:val('date'),instrument,side:val('side'),result:Number(val('result')||0),entry:val('entry'),sl:val('sl'),tp:val('tp'),risk:val('risk'),lot:val('lot'),setup:val('setup'),grade:val('grade'),emotion:val('emotion'),reason:val('reason'),psych:val('psych'),good:val('good'),bad:val('bad'),lesson:val('lesson'),image:imageData};trades.unshift(t);localStorage.setItem(KEY,JSON.stringify(trades));alert('Transakcja zapisana ✅');resetForm();show('home')}
+function resetForm(){document.getElementById('date').value=nowLocal();['instrument','result','entry','sl','tp','lot','setup','emotion','reason','psych','good','bad','lesson'].forEach(id=>document.getElementById(id).value='');document.getElementById('risk').value='1';document.getElementById('grade').value='A';document.getElementById('side').value='BUY';document.getElementById('shot').value='';document.getElementById('preview').style.display='none';imageData=''}
+function money(n){return(n>=0?'+':'')+'$'+Number(n||0).toFixed(2)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function card(t,i){const win=Number(t.result||0)>=0;return `<div class="trade ${win?'win':'loss'}"><div class="toprow"><b>${esc(t.instrument)} · ${esc(t.side)}</b><b>${money(t.result)}</b></div><div class="meta">${esc((t.date||'').replace('T',' '))} · Setup: ${esc(t.setup||'—')}</div><span class="chip">Ocena ${esc(t.grade||'—')}</span><span class="chip">Emocje ${esc(t.emotion||'—')}/10</span><span class="chip">Ryzyko ${esc(t.risk||'—')}%</span><p><b>Entry:</b> ${esc(t.entry||'—')} · <b>SL:</b> ${esc(t.sl||'—')} · <b>TP:</b> ${esc(t.tp||'—')}</p>${t.reason?`<p><b>Powód:</b> ${esc(t.reason)}</p>`:''}${t.psych?`<p><b>Psychologia:</b> ${esc(t.psych)}</p>`:''}${t.lesson?`<p><b>Wniosek:</b> ${esc(t.lesson)}</p>`:''}${t.image?`<img class="preview" style="display:block" src="${t.image}" alt="screen">`:''}<button class="danger" onclick="deleteTrade(${i})">Usuń trade</button></div>`}
+function render(){const c=trades.length,w=trades.filter(t=>Number(t.result)>0).length,p=trades.reduce((s,t)=>s+Number(t.result||0),0);document.getElementById('count').textContent=c;document.getElementById('wins').textContent=w;document.getElementById('rate').textContent=c?Math.round(w/c*100)+'%':'0%';document.getElementById('profit').textContent=money(p);document.getElementById('recent').innerHTML=c?trades.slice(0,3).map((t,i)=>card(t,i)).join(''):'Nie masz jeszcze żadnego trade’u.<br>Dodaj pierwszy i zacznij budować historię.'}
+function renderHistory(){document.getElementById('historyList').innerHTML=trades.length?trades.map((t,i)=>card(t,i)).join(''):'<div class="empty">Historia jest pusta.</div>'}
+function deleteTrade(i){if(!confirm('Usunąć ten trade?'))return;trades.splice(i,1);localStorage.setItem(KEY,JSON.stringify(trades));render();renderHistory()}
+function clearAll(){if(!trades.length)return;if(!confirm('Na pewno usunąć całą historię?'))return;trades=[];localStorage.setItem(KEY,JSON.stringify(trades));render();renderHistory()}
+render();
+</script></body></html>
