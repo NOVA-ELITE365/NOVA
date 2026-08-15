@@ -21,7 +21,6 @@
 html{scroll-behavior:smooth}
 body{
   margin:0;
-  overflow-x:hidden;
   background:
     radial-gradient(circle at 50% -10%,rgba(214,168,79,.12),transparent 35%),
     linear-gradient(180deg,#050505,#0b0a08 55%,#050505);
@@ -459,8 +458,9 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
     .nova-line {
         width: 65%;
     }
-  
-  /* ===== WERSJA DESKTOP NOVA ===== */
+}
+
+/* ===== WERSJA DESKTOP NOVA ===== */
 
 @media (min-width: 901px) {
 
@@ -696,57 +696,35 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
   color: #f5d264 !important;
   background: rgba(245,210,100,.08) !important;
   padding-left: 17px !important;
-}</style>
-</head><!-- ===== MENU NOVA ===== -->
-
+}
+/* ===== FINAL MOBILE / LAYOUT FIX ===== */
+html, body { overflow-x: hidden; }
+body { min-width: 0; }
+.nova-welcome { width: 100%; }
+.card, .mini { min-width: 0; }
+@media (max-width:480px) {
+  main { width:100%; max-width:100%; }
+  .nova-menu-panel { max-height:calc(100svh - 90px); overflow-y:auto; }
+  .nova-menu-panel a { display:flex !important; gap:10px; align-items:center; }
+  .nova-menu-panel a strong { min-width:26px; color:#f5d264; }
+  .nova-logo-big { transform:translateY(-4vh); }
+}
+</style>
+</head><body>
 <div class="nova-menu">
-
-  <button class="nova-menu-btn" id="novaMenuBtn" aria-label="Otwórz menu">
-    ☰
-  </button>
-
+  <button class="nova-menu-btn" id="novaMenuBtn" aria-label="Otwórz menu">☰</button>
   <div class="nova-menu-panel" id="novaMenuPanel">
-
-      <a href="#poznaj" class="nova-menu-link">
-    <strong>01</strong>
-    <span>Poznaj NOVA</span>
-</a>
-
-<a href="#co-znajdziesz" class="nova-menu-link">
-    <strong>02</strong>
-    <span>Co znajdziesz w środku?</span>
-</a>
-
-<a href="#jak-dzialamy" class="nova-menu-link">
-    <strong>03</strong>
-    <span>Jak działamy?</span>
-</a>
-
-<a href="#poznaj-blizej" class="nova-menu-link">
-    <strong>04</strong>
-    <span>Poznaj NOVA bliżej</span>
-</a>
-
-<a href="#dziennik" class="nova-menu-link">
-    <strong>05</strong>
-    <span>Dziennik Tradera</span>
-</a>
-
-<a href="#mozliwosci" class="nova-menu-link">
-    <strong>06</strong>
-    <span>A co z możliwościami?</span>
-</a>
-
-<a href="#kontakt" class="nova-menu-link">
-    <strong>07</strong>
-    <span>Masz pytanie?</span>
-</a>
-
-    </div>
-
+    <div class="nova-menu-title">NOVA</div>
+    <a href="#poznaj" class="nova-menu-link"><strong>01</strong><span>Poznaj NOVA</span></a>
+    <a href="#co-znajdziesz" class="nova-menu-link"><strong>02</strong><span>Co znajdziesz?</span></a>
+    <a href="#jak-dzialamy" class="nova-menu-link"><strong>03</strong><span>Jak działamy?</span></a>
+    <a href="#trading" class="nova-menu-link"><strong>04</strong><span>Trading</span></a>
+    <a href="#spolecznosc" class="nova-menu-link"><strong>05</strong><span>Społeczność</span></a>
+    <a href="#edukacja" class="nova-menu-link"><strong>06</strong><span>Edukacja</span></a>
+    <a href="#dziennik" class="nova-menu-link"><strong>07</strong><span>Dziennik Tradera</span></a>
+    <a href="#kontakt" class="nova-menu-link"><strong>08</strong><span>Masz pytanie?</span></a>
   </div>
 </div>
-<body>
 <main>
 
 <section class="nova-welcome" id="start">
@@ -856,36 +834,21 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
 <section class="card" id="co-znajdziesz">
   <h2>02. Co znajdziesz w środku?</h2>
 
-  <div class="mini">
+  <div class="mini" id="trading">
     <h3>📈 Trading</h3>
     <p>Miejsce, gdzie ogarniamy trading, narzędzia i wszystko, co może Ci pomóc lepiej zrozumieć rynek.</p>
   </div>
 
-  <div class="mini">
+  <div class="mini" id="spolecznosc">
     <h3>👥 Społeczność</h3>
     <p>Ambitni Ludzie, masa doświadczenia i rodzinny klimat. Nie musisz wszystkiego wiedzieć na początku — jesteś wśród osób, które też kiedyś zaczynały.</p>
   </div>
 
-  <div class="mini">
+  <div class="mini" id="edukacja">
     <h3>🎓 Edukacja</h3>
     <p>Materiały i szkolenia dostępne w odpowiednich grupach projektu. Masz dostęp do wiedzy, z której możesz korzystać wtedy, kiedy jej potrzebujesz.</p>
   </div>
 
-  <div class="mini">
+  <div class="mini" id="wsparcie">
     <h3>🤝 Wsparcie</h3>
-    <p>Zawsze możesz na mnie liczyć. Jeśli czegoś nie wiesz, masz pytanie albo po prostu potrzebujesz wskazówki — jestem i pomogę Ci to ogarnąć.</p>
-  </div>
-</section>
-
-<section class="card" id="jak-dzialamy">
-  <h2>03. Jak działamy?</h2>
-  <div class="step">
-    <div class="num">01</div>
-    <h3>Najpierw zadaj sobie pytanie</h3>
-    <p>Czy trading to coś, czego naprawdę chcesz się nauczyć?</p>
-  </div>
-
-  <div class="step">
-    <div class="num">02</div>
-    <h3>Jeśli odpowiedź brzmi „tak” — poznajmy się</h3>
-    <p>Opowiadam Ci o sobie, dlaczego dołączyłem do NOVA i jak wygląda moja wizja dzi
+    <p>Zawsze możesz na mnie liczyć. Jeśli czegoś nie wiesz, masz pytanie albo po pro
