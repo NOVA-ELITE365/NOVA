@@ -485,7 +485,88 @@ box-shadow:
     }
 
 }
-</style>
+.faq-btn {
+    position: fixed;
+    right: 18px;
+    bottom: 25px;
+    z-index: 9999;
+
+    padding: 12px 18px;
+    border: 1px solid var(--gold);
+    border-radius: 30px;
+
+    background: #0b0b0b;
+    color: var(--gold);
+
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+
+    box-shadow: 0 0 18px rgba(201,150,62,.25);
+}
+
+.faq-panel {
+    position: fixed;
+    right: 18px;
+    bottom: 78px;
+    z-index: 9998;
+
+    width: min(360px, calc(100vw - 36px));
+    max-height: 70vh;
+    overflow-y: auto;
+
+    padding: 20px;
+
+    background: #0b0b0b;
+    border: 1px solid var(--gold);
+    border-radius: 18px;
+
+    box-shadow: 0 0 30px rgba(201,150,62,.20);
+
+    display: none;
+}
+
+.faq-panel.active {
+    display: block;
+}
+
+.faq-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+
+    margin-bottom: 18px;
+}
+
+.faq-header button {
+    border: none;
+    background: transparent;
+    color: var(--gold);
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.faq-panel details {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201,150,62,.25);
+}
+
+.faq-panel summary {
+    cursor: pointer;
+    color: #fff;
+    font-weight: 600;
+}
+
+.faq-panel p {
+    color: #bbb;
+    line-height: 1.5;
+    margin-top: 10px;
+}</style>
 </head>
 
 <body>
@@ -706,8 +787,13 @@ Działanie online to z kolei rozwój umiejętności, komunikacji i pracy z ludź
   </div>
 </section>
 
-<section class="card" id="faq">
-    <h2>08. Najczęściej zadawane pytania</h2>
+<button class="faq-btn" id="faqBtn">❓ FAQ</button>
+
+<div class="faq-panel" id="faqPanel">
+    <div class="faq-header">
+        <span>❓ Najczęściej zadawane pytania</span>
+        <button id="faqClose">×</button>
+    </div>
 
     <details>
         <summary>Czy muszę mieć doświadczenie w tradingu?</summary>
@@ -716,24 +802,24 @@ Działanie online to z kolei rozwój umiejętności, komunikacji i pracy z ludź
 
     <details>
         <summary>Czy NOVA gwarantuje zarobki?</summary>
-        <p>Nie. NOVA nie gwarantuje konkretnych wyników ani zarobków. Wyniki zależą między innymi od wiedzy, zaangażowania, decyzji i warunków rynkowych.</p>
+        <p>Nie. NOVA nie gwarantuje konkretnych wyników ani zarobków.</p>
     </details>
 
     <details>
         <summary>Czy muszę od razu podejmować decyzję?</summary>
-        <p>Nie. Możesz najpierw poznać projekt, zobaczyć jak wygląda od środka i dopiero wtedy zdecydować, czy jest dla Ciebie.</p>
+        <p>Nie. Możesz najpierw poznać projekt i dopiero wtedy zdecydować, czy jest dla Ciebie.</p>
     </details>
 
     <details>
         <summary>Na czym polega działanie online?</summary>
-        <p>To połączenie edukacji, rozwoju, pracy z ludźmi oraz poznawania możliwości związanych z rynkiem i działaniem online.</p>
+        <p>To połączenie edukacji, rozwoju, pracy z ludźmi oraz poznawania możliwości związanych z działaniem online.</p>
     </details>
 
     <details>
         <summary>Jak mogę dowiedzieć się więcej?</summary>
-        <p>Najprościej odezwać się bezpośrednio. Możemy spokojnie porozmawiać i odpowiedzieć na Twoje pytania.</p>
+        <p>Najprościej odezwać się bezpośrednio i spokojnie porozmawiać.</p>
     </details>
-</section>
+</div>
 
 <div class="disclaimer">
 
@@ -744,5 +830,19 @@ Działanie online to z kolei rozwój umiejętności, komunikacji i pracy z ludź
 <footer>NOVA • Prostota • Normalność • Konsekwencja</footer>
 
 </main>
+
+<script>
+const faqBtn = document.getElementById("faqBtn");
+const faqPanel = document.getElementById("faqPanel");
+const faqClose = document.getElementById("faqClose");
+
+faqBtn.addEventListener("click", () => {
+  faqPanel.classList.add("active");
+});
+
+faqClose.addEventListener("click", () => {
+  faqPanel.classList.remove("active");
+});
+  </script>
 </body>
 </html>
