@@ -971,46 +971,34 @@ Działanie online to z kolei rozwój umiejętności, komunikacji i pracy z ludź
 <footer>NOVA • Prostota • Normalność • Konsekwencja</footer>
 
 </main>
-<<script>
+<script>
 const menuBtn = document.querySelector('.nova-menu-btn');
 const menuPanel = document.querySelector('.nova-menu-panel');
+const menuLinks = document.querySelectorAll('.nova-menu-link');
 
 menuBtn.addEventListener('click', () => {
     menuPanel.classList.toggle('active');
 });
 
-const sections = {
-    '01': 'poznaj',
-    '02': 'jak-dzialamy',
-    '03': 'dziennik',
-    '04': 'mozliwosci',
-    '05': 'edukacja',
-    '06': 'spolecznosc',
-    '07': 'kontakt'
-};
-
-document.querySelectorAll('.nova-menu-link').forEach(link => {
-
-    link.addEventListener('click', function(e) {
+menuLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
         e.preventDefault();
 
-        const number = this.querySelector('strong').textContent.trim();
-        const targetId = sections[number];
-        const target = document.getElementById(targetId);
+        const targetId = link.getAttribute('href');
 
-        if (target) {
-            const offset = 20;
-            const position = target.getBoundingClientRect().top + window.scrollY - offset;
+        if (targetId && targetId.startsWith('#')) {
+            const target = document.querySelector(targetId);
 
-            window.scrollTo({
-                top: position,
-                behavior: 'smooth'
-            });
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         }
 
         menuPanel.classList.remove('active');
     });
-
 });
 </script>
 </body>
