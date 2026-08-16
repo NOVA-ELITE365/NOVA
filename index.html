@@ -835,22 +835,31 @@ const faqBtn = document.getElementById("faqBtn");
 const faqPanel = document.getElementById("faqPanel");
 const faqClose = document.getElementById("faqClose");
 
-faqBtn.addEventListener("click", () => {
+document.body.appendChild(faqBtn);
+
+faqBtn.style.setProperty("position", "fixed", "important");
+faqBtn.style.setProperty("left", "32px", "important");
+faqBtn.style.setProperty("bottom", "32px", "important");
+faqBtn.style.setProperty("right", "auto", "important");
+faqBtn.style.setProperty("top", "auto", "important");
+faqBtn.style.setProperty("z-index", "999999", "important"); faqBtn.addEventListener("click", () => {
   faqPanel.classList.add("active");
 });
 
 faqClose.addEventListener("click", () => {
   faqPanel.classList.remove("active");
 });
-  
 </script>
-<style>
+  
+  <style>
 .faq-btn {
-    position: fixed;
-    left: 32px;
-    bottom: 32px;
+    position: fixed !important;
+    left: 32px !important;
+    bottom: 32px !important;
+    right: auto !important;
+    top: auto !important;
 
-    z-index: 9999;
+    z-index: 999999 !important;
 
     padding: 10px 18px;
     background: #080808;
@@ -861,9 +870,9 @@ faqClose.addEventListener("click", () => {
     font-size: 16px;
     font-weight: 600;
 
-    box-shadow: 0 0 15px rgba(201, 150, 62, 0.25);
+    box-shadow: 0 0 15px rgba(201,150,62,0.25);
     cursor: pointer;
-  }
+}
 </style>
 </body>
 </html>
