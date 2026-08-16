@@ -707,44 +707,43 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
 
   <div class="nova-menu-panel" id="novaMenuPanel">
 
-      <a href="#poznaj" class="nova-menu-link">
-    <strong>01</strong>
-    <span>Poznaj NOVA</span>
-</a>
+    <a href="#poznaj" class="nova-menu-link">
+      <strong>01</strong>
+      <span>Poznaj NOVA</span>
+    </a>
 
-<a href="#jak-dzialamy" class="nova-menu-link">
-    <strong>02</strong>
-    <span>Jak działamy?</span>
-</a>
+    <a href="#jak-dzialamy" class="nova-menu-link">
+      <strong>02</strong>
+      <span>Jak działamy?</span>
+    </a>
 
-<a href="#dziennik" class="nova-menu-link">
-    <strong>03</strong>
-    <span>Dziennik Tradera</span>
-</a>
+    <a href="#dziennik" class="nova-menu-link">
+      <strong>03</strong>
+      <span>Dziennik Tradera</span>
+    </a>
 
-<a href="#mozliwosci" class="nova-menu-link">
-    <strong>04</strong>
-    <span>Co oferuje NOVA?</span>
-</a>
+    <a href="#mozliwosci" class="nova-menu-link">
+      <strong>04</strong>
+      <span>Co oferuje NOVA?</span>
+    </a>
 
-<a href="#edukacja" class="nova-menu-link">
-    <strong>05</strong>
-    <span>Edukacja</span>
-</a>
+    <a href="#edukacja" class="nova-menu-link">
+      <strong>05</strong>
+      <span>Edukacja</span>
+    </a>
 
-<a href="#spolecznosc" class="nova-menu-link">
-    <strong>06</strong>
-    <span>Społeczność NOVA</span>
-</a>
+    <a href="#spolecznosc" class="nova-menu-link">
+      <strong>06</strong>
+      <span>Społeczność NOVA</span>
+    </a>
 
-<a href="#kontakt" class="nova-menu-link">
-    <strong>07</strong>
-    <span>Masz pytanie?</span>
-</a>
-
-    </div>
+    <a href="#kontakt" class="nova-menu-link">
+      <strong>07</strong>
+      <span>Masz pytanie?</span>
+    </a>
 
   </div>
+
 </div>
 <body>
 <main>
@@ -977,28 +976,25 @@ const menuPanel = document.querySelector('.nova-menu-panel');
 const menuLinks = document.querySelectorAll('.nova-menu-link');
 
 menuBtn.addEventListener('click', () => {
-    menuPanel.classList.toggle('active');
+  menuPanel.classList.toggle('active');
 });
 
 menuLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
 
-        const targetId = link.getAttribute('href');
+    const targetId = link.getAttribute('href').substring(1);
+    const target = document.getElementById(targetId);
 
-        if (targetId && targetId.startsWith('#')) {
-            const target = document.querySelector(targetId);
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
 
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-
-        menuPanel.classList.remove('active');
-    });
+    menuPanel.classList.remove('active');
+  });
 });
 </script>
 </body>
