@@ -787,7 +787,7 @@ Działanie online to z kolei rozwój umiejętności, komunikacji i pracy z ludź
   </div>
 </section>
 
-<button class="faq-btn" id="faqBtn">❓ FAQ</button>
+<button class="faq-btn" id="faqBtn" style="position:fixed !important;left:32px !important;bottom:32px !important;right:auto !important;top:auto !important;z-index:2147483647 !important;">❓ FAQ</button>
 
 <div class="faq-panel" id="faqPanel">
     <div class="faq-header">
@@ -843,7 +843,8 @@ faqBtn.addEventListener("click", () => {
 faqClose.addEventListener("click", () => {
   faqPanel.classList.remove("active");
 });
-  document.body.appendChild(faqBtn);</script>
+  
+</script>
 <style>
 .faq-btn {
     position: fixed !important;
