@@ -861,12 +861,12 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
     <p>Miejsce, gdzie ogarniamy trading, narzędzia i wszystko, co może Ci pomóc lepiej zrozumieć rynek.</p>
   </div>
 
-  <div class="mini">
+  <div class="mini" id="spolecznosc">
     <h3>👥 Społeczność</h3>
     <p>Ambitni Ludzie, masa doświadczenia i rodzinny klimat. Nie musisz wszystkiego wiedzieć na początku — jesteś wśród osób, które też kiedyś zaczynały.</p>
   </div>
 
-  <div class="mini">
+  <div class="mini" id="edukacja">
     <h3>🎓 Edukacja</h3>
     <p>Materiały i szkolenia dostępne w odpowiednich grupach projektu. Masz dostęp do wiedzy, z której możesz korzystać wtedy, kiedy jej potrzebujesz.</p>
   </div>
@@ -927,7 +927,7 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
 </section>
 
 <section class="card journal" id="dziennik">
-  <h2>05. Dziennik Tradera</h2>
+  <h2>03. Dziennik Tradera</h2>
   <p>
     To narzędzie, które pomoże Ci prowadzić własne transakcje,
     analizować decyzje i wyciągać wnioski z każdego zagrania.
@@ -940,7 +940,7 @@ footer{text-align:center;color:#6f7d8b;font-size:12px;padding-top:10px}
 </section>
 
 <section class="card" id="mozliwosci">
-  <h2>06. A co z możliwościami?</h2>
+  <h2>04. A co z możliwościami?</h2>
 
 <p>
 NOVA to przestrzeń, w której możesz bliżej poznać trading, rozwój i działanie online.
@@ -981,9 +981,22 @@ menuBtn.addEventListener('click', () => {
 });
 
 menuLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        const target = document.querySelector(targetId);
+
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
         menuPanel.classList.remove('active');
     });
 });
-</script></body>
+</script>
+</body>
 </html>
