@@ -980,21 +980,25 @@ menuBtn.addEventListener('click', () => {
 });
 
 menuLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        const targetId = link.getAttribute('href');
 
-    const targetId = link.getAttribute('href').substring(1);
-    const target = document.getElementById(targetId);
+        if (targetId && targetId.startsWith('#')) {
+            const target = document.querySelector(targetId);
 
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
+            if (target) {
+                setTimeout(() => {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 50);
+            }
+        }
 
-    menuPanel.classList.remove('active');
-  });
+        menuPanel.classList.remove('active');
+    });
 });
 </script>
 </body>
