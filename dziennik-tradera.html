@@ -1,4 +1,4 @@
-  <!doctype html>
+ <!doctype html>
 <html lang="pl">
 <head>
 <meta charset="utf-8">
@@ -336,4 +336,149 @@ footer{text-align:center;color:#5e7890;font-size:13px;padding:20px}
       <div class="term"><h3>⚖️ Ryzyko (%)</h3><p>Procent kapitału, który planujesz maksymalnie ryzykować w danej transakcji.</p></div>
       <div class="term"><h3>📦 Pozycja / lot</h3><p>Wielkość otwieranej pozycji. Jej znaczenie zależy od konkretnego instrumentu.</p></div>
       <div class="term"><h3>📈 Setup / strategia</h3><p>Układ sytuacji rynkowej i zasady, które są podstawą Twojego wejścia.</p></div>
-      <div class="term"><h3>🧠 Psychologia</h3><p>Zapisujesz emocje i zachowanie podczas transakcji: FOMO, stres, spokój, odwet czy tr
+      <div class="term"><h3>🧠 Psychologia</h3><p>Zapisujesz emocje i zachowanie podczas transakcji: FOMO, stres, spokój, odwet czy trzymanie planu.</p></div>
+      <div class="term"><h3>📊 Skuteczność</h3><p>Procent wygranych transakcji spośród wszystkich zapisanych transakcji.</p></div>
+      <div class="term"><h3>💰 Zysk / strata</h3><p>Finansowy rezultat transakcji. Wynik dodatni oznacza zysk, ujemny stratę.</p></div>
+      <div class="term"><h3>⭐ Ocena setupu</h3><p>Twoja ocena jakości okazji przed wejściem, np. A–F.</p></div>
+      <div class="term"><h3>📝 Wniosek</h3><p>Najważniejsza lekcja, którą chcesz zabrać z tej transakcji do kolejnych decyzji.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>NOVA • Dziennik Tradera • Twoje dane, Twoje decyzje</footer>
+</div>
+
+<script>
+const KEY='nova_trader_v2';
+const WEEK_KEY='nova_week_v2';
+let trades=JSON.parse(localStorage.getItem(KEY)||'[]');
+let weekData=JSON.parse(localStorage.getItem(WEEK_KEY)||'{}');
+document.getElementById('grade').value=weekData.grade||'';
+['weekGood','weekBad','weekLesson','weekPlan'].forEach(id=>{document.getElementById(id).value=weekData[id]||''});
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='journal') renderStats();
+  renderPeriodStats();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function journalTab(tab){
+  ['week','new','history'].forEach(x=>{
+    document.getElementById(x+'Tab').style.display=x===tab?'block':'none';
+    const b=document.getElementById('tab-'+x); if(b)b.classList.toggle('active',x===tab);
+  });
+  if(tab==='history') renderHistory();
+  if(tab==='week') renderStats();
+  renderPeriodStats();
+}
+function getWeekBounds(){
+  const now=new Date(); const day=(now.getDay()+6)%7;
+  const start=new Date(now); start.setHours(0,0,0,0); start.setDate(now.getDate()-day);
+  const end=new Date(start); end.setDate(start.getDate()+7); return {start,end};
+}
+function tradeDate(t){ const d=new Date(t.date); return isNaN(d)?null:d; }
+function currentWeekTrades(){ const {start,end}=getWeekBounds(); return trades.filter(t=>{const d=tradeDate(t);return d&&d>=start&&d<end}); }
+function formatDate(d){return d.toLocaleDateString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function saveGrade(){ weekData.grade=document.getElementById('grade').value; localStorage.setItem(WEEK_KEY,JSON.stringify(weekData)); renderStats();
+  renderPeriodStats(); }
+function saveWeekReflection(){
+  ['weekGood','weekBad','weekLesson','weekPlan'].forEach(id=>weekData[id]=document.getElementById(id).value.trim());
+  weekData.grade=document.getElementById('grade').value;
+  localStorage.setItem(WEEK_KEY,JSON.stringify(weekData));
+  alert('Podsumowanie tygodnia zapisane.');
+}
+function saveTrade(){
+  const t={id:Date.now(),date:document.getElementById('date').value||new Date().toISOString(),instrument:document.getElementById('instrument').value.trim(),direction:document.getElementById('direction').value,result:Number(document.getElementById('result').value||0),entry:document.getElementById('entry').value,sl:document.getElementById('sl').value,tp:document.getElementById('tp').value,risk:document.getElementById('risk').value,lot:document.getElementById('lot').value,setup:document.getElementById('setup').value,setupGrade:document.getElementById('setupGrade').value,emotion:document.getElementById('emotion').value,reason:document.getElementById('reason').value,psychology:document.getElementById('psychology').value,good:document.getElementById('good').value,bad:document.getElementById('bad').value,lesson:document.getElementById('lesson').value};
+  trades.unshift(t); localStorage.setItem(KEY,JSON.stringify(trades));
+  document.querySelectorAll('#newTab input,#newTab textarea').forEach(el=>{if(el.id!=='risk')el.value=''}); document.getElementById('risk').value='1';
+  alert('Trade zapisany.'); journalTab('history');
+}
+function renderStats(){
+  const wt=currentWeekTrades(), n=wt.length,w=wt.filter(t=>t.result>0).length,l=wt.filter(t=>t.result<0).length,sum=wt.reduce((a,t)=>a+Number(t.result||0),0);
+  document.getElementById('sTrades').textContent=n; document.getElementById('sWins').textContent=w; document.getElementById('sLosses').textContent=l; document.getElementById('sWinrate').textContent=(n?Math.round(w/n*100):0)+'%'; document.getElementById('sProfit').textContent=(sum>=0?'+':'')+'$'+sum.toFixed(2);
+  document.getElementById('weekGrade').textContent=weekData.grade||'—'; document.getElementById('grade').value=weekData.grade||'';
+  const vals=wt.map(t=>Number(t.result||0)); document.getElementById('best').textContent=vals.length?'$'+Math.max(...vals).toFixed(2):'$0.00'; document.getElementById('worst').textContent=vals.length?'$'+Math.min(...vals).toFixed(2):'$0.00';
+  const {start,end}=getWeekBounds(); document.getElementById('weekRange').textContent=formatDate(start)+' – '+formatDate(new Date(end-1));
+}
+function renderHistory(){
+  const box=document.getElementById('tradeList'); document.getElementById('historyCount').textContent=trades.length+' '+(trades.length===1?'transakcja':'transakcji');
+  if(!trades.length){box.innerHTML='<p class="note" style="text-align:center;padding:25px">Historia jest pusta. Dodaj pierwszy trade i zacznij budować historię.</p>';return}
+  box.innerHTML=trades.map((t,i)=>{
+    const d=tradeDate(t); const date=d?d.toLocaleString('pl-PL'):t.date; const cls=t.direction==='BUY'?'buy':'sell'; const result=Number(t.result||0);
+    return `<div class="trade"><div class="trade-head"><div><strong>${esc(t.instrument||'Bez instrumentu')}</strong><div class="trade-meta">${date}</div></div><span class="badge ${cls}">${esc(t.direction)}</span></div>
+      <div class="trade-meta">Wynik: <b style="color:${result>=0?'#67dfa9':'#ff8790'}">${result>=0?'+':''}$${result.toFixed(2)}</b> • Setup: ${esc(t.setup||'—')} • Ocena: ${esc(t.setupGrade||'—')}</div>
+      <button class="detail-btn" onclick="toggleDetail(${t.id})">Zobacz szczegóły →</button>
+      <div id="detail-${t.id}" class="trade-detail"><div class="detail-grid">
+        <div>ENTRY: <b>${esc(t.entry||'—')}</b></div><div>SL: <b>${esc(t.sl||'—')}</b></div><div>TP: <b>${esc(t.tp||'—')}</b></div><div>Ryzyko: <b>${esc(t.risk||'—')}%</b></div><div>Pozycja: <b>${esc(t.lot||'—')}</b></div><div>Emocje: <b>${esc(t.emotion||'—')}/10</b></div>
+        <div>Powód wejścia: <b>${esc(t.reason||'—')}</b></div><div>Psychologia: <b>${esc(t.psychology||'—')}</b></div><div>Co zrobiłem dobrze: <b>${esc(t.good||'—')}</b></div><div>Co poprawić: <b>${esc(t.bad||'—')}</b></div><div>Wniosek: <b>${esc(t.lesson||'—')}</b></div>
+      </div></div></div>`;
+  }).join('');
+}
+function toggleDetail(id){const el=document.getElementById('detail-'+id); if(el)el.classList.toggle('open');}
+function clearTrades(){if(confirm('Na pewno wyczyścić całą historię?')){trades=[];localStorage.setItem(KEY,'[]');renderHistory();renderStats();
+  renderPeriodStats();}}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+renderStats();
+  renderPeriodStats();
+</script>
+<script>
+let statsPeriod = 'day';
+
+function getTradeDate(t){
+  const raw = t.date || t.datetime || t.createdAt || '';
+  const d = new Date(raw);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function startOfWeek(d){
+  const x = startOfDay(d), day = x.getDay();
+  x.setDate(x.getDate() + (day === 0 ? -6 : 1 - day));
+  return x;
+}
+function getStatsRange(period){
+  const now = new Date();
+  if(period === 'all') return {start:null,end:null,label:'Wszystkie transakcje'};
+  let start = startOfDay(now);
+  if(period === 'week') start = startOfWeek(now);
+  if(period === 'month') start = new Date(now.getFullYear(), now.getMonth(), 1);
+  if(period === 'year') start = new Date(now.getFullYear(), 0, 1);
+  const labels = {day:'Dzisiaj',week:'Ten tydzień',month:'Ten miesiąc',year:'Ten rok'};
+  return {start,end:now,label:labels[period]};
+}
+function setStatsPeriod(period){
+  statsPeriod = period;
+  document.querySelectorAll('.period-tab').forEach(b => b.classList.toggle('active', b.dataset.period === period));
+  renderPeriodStats();
+}
+function renderPeriodStats(){
+  const range = getStatsRange(statsPeriod);
+  const all = Array.isArray(trades) ? trades : [];
+  const filtered = range.start ? all.filter(t => {
+    const d = getTradeDate(t);
+    return d && d >= range.start && d <= range.end;
+  }) : all;
+
+  let wins=0, losses=0, profit=0;
+  filtered.forEach(t => {
+    const value = Number(t.result ?? t.profit ?? t.pnl ?? 0) || 0;
+    profit += value;
+    if(value > 0) wins++;
+    else if(value < 0) losses++;
+  });
+
+  const closed = wins + losses;
+  const winrate = closed ? (wins / closed) * 100 : 0;
+  const set = (id,value) => { const el=document.getElementById(id); if(el) el.textContent=value; };
+
+  set('statsPeriodLabel', range.label);
+  set('sumTrades', filtered.length);
+  set('sumWins', wins);
+  set('sumLosses', losses);
+  set('sumWinrate', winrate.toFixed(1) + '%');
+  set('sumProfit', '$' + profit.toFixed(2));
+}
+</script>
+</body>
+</html>
