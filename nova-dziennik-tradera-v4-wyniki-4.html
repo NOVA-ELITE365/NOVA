@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NOVA Dziennik Tradera — planuj, analizuj i wyciągaj wnioski z każdej transakcji.">
+<title>NOVA Dziennik Tradera</title>
+<style>
+:root{
+  --bg:#050d18; --panel:#0a1b2d; --panel2:#0d2339; --line:#16466e;
+  --blue:#168cff; --blue2:#49a9ff; --text:#f3f7fb; --muted:#91acc7;
+  --green:#38c98b; --red:#ef5664; --gold:#e7b243;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#030303;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{width:100%;max-width:none;min-height:100vh;margin:0;padding-bottom:90px;border:1px solid rgba(214,153,42,.82);}
+header{
+  padding:28px 22px 22px;text-align:center;border-bottom:1px solid rgba(214,153,42,.55);
+  background:#030303;
+}
+.logo{font-size:22px;font-weight:900;letter-spacing:5px;color:#fff}
+.logo span{color:#e0a52f;text-shadow:0 0 18px rgba(224,165,47,.12)}
+h1{font-size:clamp(34px,7vw,64px);margin:14px 0 8px;line-height:1.02}
+h1 span{color:var(--blue)}
+.tagline{color:#9f9b91;font-size:17px;margin:0}
+main{padding:24px}
+.page{display:none}.page.active{display:block}
+.hero{
+  position:relative;overflow:hidden;text-align:center;
+  min-height:560px;padding:76px 22px 55px;border:0;
+  border-radius:0;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(214,153,42,.10),transparent 30%),
+    radial-gradient(circle at 50% 65%,rgba(214,153,42,.035),transparent 42%),
+    #030303;
+  box-shadow:none;display:flex;flex-direction:column;align-items:center;
+}
+.hero:after{
+  content:"";position:absolute;left:-10%;right:-10%;bottom:35px;height:190px;opacity:.32;
+  background:
+    linear-gradient(165deg,transparent 0 42%,rgba(214,153,42,.18) 43%,transparent 44%),
+    linear-gradient(175deg,transparent 0 62%,rgba(214,153,42,.10) 63%,transparent 64%),
+    repeating-linear-gradient(90deg,transparent 0 54px,rgba(214,153,42,.045) 55px 56px);
+  transform:skewY(-4deg);pointer-events:none
+}
+.hero>*{position:relative;z-index:1}
+.hero .nova{font-size:16px;letter-spacing:10px;font-weight:900;color:#dfe9f4;margin-bottom:35px}
+.hero h2{
+  font-size:clamp(38px,7vw,70px);margin:0;line-height:1.03;
+  font-weight:900;letter-spacing:-1.5px;text-transform:none
+}
+.hero h2 span{
+  color:#e0a52f;
+  text-shadow:0 0 22px rgba(224,165,47,.14)
+}
+.hero p{max-width:620px;margin:22px auto 0;color:var(--muted);font-size:17px;line-height:1.55}
+.start-choices{
+  display:flex;align-items:center;justify-content:center;gap:42px;
+  margin-top:58px
+}
+.start-choice{
+  appearance:none;background:transparent;color:#dfeaf5;border:0;
+  padding:13px 18px;position:relative;min-width:185px;
+  font-size:18px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;
+  transition:.2s
+}
+.start-choice:hover{
+  color:#fff;
+  transform:translateY(-2px);
+  text-shadow:0 0 14px rgba(224,165,47,.16)
+}
+.start-choice.guide:before,
+.start-choice.guide:after{
+  content:"";position:absolute;top:4px;bottom:4px;width:10px;
+  border-top:2px solid #c8922c;border-bottom:2px solid #c8922c
+}
+.start-choice.guide:before{left:0;border-left:2px solid #c8922c}
+.start-choice.guide:after{right:0;border-right:2px solid #c8922c}
+
+.start-disclaimer{
+  margin-top:auto;
+  padding:22px 18px 0;
+  max-width:620px;
+  color:#77736b;
+  font-size:11px;
+  line-height:1.5;
+  text-align:center;
+  letter-spacing:.1px;
+}
+.start-disclaimer strong{color:#9a8a68;font-weight:600}
+
+.start-choice.journal{
+  border:1px solid rgba(224,165,47,.82);border-radius:12px;
+  background:linear-gradient(145deg,rgba(38,27,10,.62),rgba(12,9,4,.70));
+  box-shadow:0 8px 30px rgba(0,0,0,.28)
+}
+.start-choice.journal:hover{
+  border-color:#f0b83e;
+  box-shadow:0 10px 34px rgba(224,165,47,.14)
+}
+.arrow{display:none}
+.section-title{margin:4px 0 18px;font-size:30px}
+.panel{
+  background:linear-gradient(145deg,#0b2034,#081728);border:1px solid #17486f;
+  border-radius:22px;padding:22px;margin-bottom:18px
+}
+.back{border:1px solid #245a83;background:#0a1a2a;color:#cfe2f4;border-radius:12px;padding:10px 14px;margin-bottom:18px}
+.navrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.navrow button,.primary,.danger{
+  border:0;border-radius:12px;padding:12px 17px;font-weight:800;color:#fff;background:#123b5f
+}
+.navrow button.active,.primary{background:var(--blue)}
+.danger{background:#8e2d3a}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{border:1px solid #16466e;border-radius:18px;padding:18px;background:#071828}
+.stat small{display:block;color:var(--muted);margin-bottom:8px}.stat strong{font-size:28px}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+label{display:block;color:#a9c2da;font-size:14px;margin-bottom:7px}
+input,select,textarea{
+  width:100%;border:1px solid #20567f;background:#061624;color:#f3f7fb;
+  border-radius:13px;padding:13px;outline:none
+}
+textarea{min-height:100px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+.full{grid-column:1/-1}
+.form-actions{margin-top:18px}
+.trade-list{display:grid;gap:12px}
+.trade{
+  border:1px solid #17486f;border-radius:18px;padding:17px;background:#071828
+}
+.trade-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.badge{padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900}
+.buy{background:rgba(56,201,139,.16);color:#67dfa9}.sell{background:rgba(239,86,100,.16);color:#ff8790}
+.trade-meta{color:var(--muted);font-size:13px;margin-top:7px}
+.guide{display:grid;gap:12px}
+.glossary-tile{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  width:100%;border:1px solid #c8922c;border-radius:17px;padding:18px 20px;
+  background:linear-gradient(135deg,rgba(200,146,44,.08),rgba(7,24,40,.96));
+  color:#f3f7fb;text-align:left;cursor:pointer;transition:.2s ease;
+}
+.glossary-tile:hover{border-color:#e0a52f;transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,146,44,.08)}
+.glossary-tile strong{font-size:18px;display:block}
+.glossary-tile span{display:block;color:#91aac2;font-size:13px;margin-top:4px}
+.glossary-arrow{color:#e0a52f;font-size:24px;font-weight:900}
+.term{border:1px solid #17486f;border-radius:17px;padding:17px;background:#071828}
+.term h3{margin:0 0 7px;font-size:18px}.term p{margin:0;color:#9bb3c9;line-height:1.55}
+.week{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.note{color:var(--muted);line-height:1.55}
+footer{text-align:center;color:#5e7890;font-size:13px;padding:20px}
+@media(max-width:700px){
+  main{padding:8px 16px}.formgrid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}
+  .week{grid-template-columns:1fr}.hero{min-height:560px;padding:62px 8px 40px}
+  .hero .nova{margin-bottom:30px}.hero p{font-size:16px}
+  .start-choices{gap:8px;margin-top:48px;width:100%}
+  .start-choice{min-width:0;flex:1;padding:13px 9px;font-size:14px;letter-spacing:1px}
+}
+
+.week-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.week-label{color:#e0a52f;font-weight:800;letter-spacing:.8px;text-transform:uppercase;font-size:13px}
+.week-summary{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.reflection-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.reflection-grid textarea{min-height:85px}
+.detail-btn{margin-top:12px;border:1px solid #245a83;background:#0a1a2a;color:#d8e8f6;border-radius:10px;padding:9px 12px;font-weight:800}
+.detail-btn:hover{border-color:#e0a52f;color:#fff}
+.history-tools{display:flex;gap:8px;flex-wrap:wrap}
+.trade-detail{margin-top:12px;padding-top:12px;border-top:1px solid #17486f;display:none}
+.trade-detail.open{display:block}
+.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 18px;color:#9bb3c9;font-size:13px;line-height:1.5}
+.detail-grid b{color:#e7eef5}
+.course{display:grid;gap:12px}
+.course-card{border:1px solid #17486f;border-radius:17px;background:#071828;padding:18px}
+.course-card h3{margin:0 0 8px;font-size:19px}.course-card p,.course-card li{color:#9bb3c9;line-height:1.55}.course-card ul{margin:8px 0 0;padding-left:20px}
+.course-number{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:rgba(224,165,47,.14);color:#e0a52f;margin-right:8px;font-weight:900}
+.guide-note{border-left:3px solid #e0a52f;padding:12px 14px;background:rgba(224,165,47,.05);color:#b9c9d8;line-height:1.55;border-radius:0 10px 10px 0}
+@media(max-width:700px){.week-summary{grid-template-columns:repeat(2,1fr)}.reflection-grid,.detail-grid{grid-template-columns:1fr}}
+
+</style>
+<style>
+.period-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:18px}
+.period-tab{border:1px solid #17486f;border-radius:11px;padding:12px 8px;background:#071828;color:#a9bfd2;font-weight:800;cursor:pointer;transition:.2s}
+.period-tab:hover{border-color:#c8922c;color:#fff}
+.period-tab.active{border-color:#c8922c;color:#f2c45d;background:linear-gradient(145deg,rgba(200,146,44,.13),#071828);box-shadow:0 0 18px rgba(200,146,44,.07)}
+.stats-clean{grid-template-columns:repeat(5,1fr)}
+@media(max-width:700px){.period-tabs{grid-template-columns:repeat(5,minmax(64px,1fr));overflow-x:auto}.period-tab{font-size:12px;padding:11px 6px}.stats-clean{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">NOVA <span>DZIENNIK TRADERA</span></div>
+  <p class="tagline">Planuj. Analizuj. Doskonal się.</p>
+</header>
+
+<main>
+<!-- START -->
+<section id="start" class="page active">
+  <div class="hero">
+    <div class="nova">NOVA</div>
+    <h2>Witaj w <span>Dzienniku Tradera</span></h2>
+    <p>Twoje miejsce do zapisywania transakcji, analizowania decyzji i budowania własnej historii tradingowej.</p>
+
+    <div class="start-choices">
+      <button class="start-choice guide" onclick="showPage('guide')">Przewodnik</button>
+      <button class="start-choice journal" onclick="showPage('journal')">Dziennik Tradera</button>
+    </div>
+
+    <div class="start-disclaimer">
+      <strong>Informacja:</strong> Dziennik ma charakter edukacyjny i służy do zapisywania oraz analizowania własnych decyzji tradingowych. Nie stanowi porady inwestycyjnej ani gwarancji wyników. Trading wiąże się z ryzykiem straty kapitału.
+    </div>
+  </div>
+</section>
+
+<!-- JOURNAL -->
+<section id="journal" class="page">
+  <button class="back" onclick="showPage('start')">← Wróć do strony głównej</button>
+  <h2 class="section-title">📊 Dziennik Tradera</h2>
+  <div class="navrow">
+    <button id="tab-week" class="active" onclick="journalTab('week')">📈 Wyniki tygodniowe</button>
+    <button id="tab-new" onclick="journalTab('new')">＋ Nowy trade</button>
+    <button id="tab-history" onclick="journalTab('history')">☷ Historia</button>
+  </div>
+
+  <div id="weekTab">
+    <div class="panel">
+      <div class="week-head">
+        <div><div class="week-label">Podsumowanie</div><h3 style="margin:5px 0 0">📊 Aktualne transakcje</h3></div>
+        <div class="note" id="statsPeriodLabel">Dzisiaj</div>
+      </div>
+
+      <div class="period-tabs">
+        <button class="period-tab active" data-period="day" onclick="setStatsPeriod('day')">Dzień</button>
+        <button class="period-tab" data-period="week" onclick="setStatsPeriod('week')">Tydzień</button>
+        <button class="period-tab" data-period="month" onclick="setStatsPeriod('month')">Miesiąc</button>
+        <button class="period-tab" data-period="year" onclick="setStatsPeriod('year')">Rok</button>
+        <button class="period-tab" data-period="all" onclick="setStatsPeriod('all')">Wszystko</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="stats stats-clean">
+        <div class="stat"><small>Transakcje</small><strong id="sumTrades">0</strong></div>
+        <div class="stat"><small>Wygrane</small><strong id="sumWins">0</strong></div>
+        <div class="stat"><small>Przegrane</small><strong id="sumLosses">0</strong></div>
+        <div class="stat"><small>Skuteczność</small><strong id="sumWinrate">0%</strong></div>
+        <div class="stat"><small>Zysk / strata</small><strong id="sumProfit">$0.00</strong></div>
+      </div>
+    </div>
+  </div>
+  <div id="newTab" style="display:none">
+    <div class="panel">
+      <h3>＋ Nowy trade</h3>
+      <div class="formgrid">
+        <div><label>Data i godzina</label><input id="date" type="datetime-local"></div>
+        <div><label>Instrument / waluta</label><input id="instrument" placeholder="np. XAUUSD / BTCUSD / EURUSD"></div>
+        <div><label>Kierunek</label><select id="direction"><option>BUY</option><option>SELL</option></select></div>
+        <div><label>Wynik ($)</label><input id="result" type="number" step="0.01" placeholder="np. 35"></div>
+        <div><label>ENTRY</label><input id="entry" placeholder="Cena wejścia"></div>
+        <div><label>SL</label><input id="sl" placeholder="Stop Loss"></div>
+        <div><label>TP</label><input id="tp" placeholder="Take Profit"></div>
+        <div><label>Ryzyko (%)</label><input id="risk" type="number" step="0.1" value="1"></div>
+        <div><label>Pozycja (lot)</label><input id="lot" placeholder="np. 0.10"></div>
+        <div><label>Setup / strategia</label><input id="setup" placeholder="Breakout / Pullback..."></div>
+        <div><label>Ocena setupu</label><select id="setupGrade"><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+        <div><label>Emocje przed wejściem (1–10)</label><input id="emotion" type="number" min="1" max="10"></div>
+        <div class="full"><label>🎯 Powód wejścia</label><textarea id="reason" placeholder="Co zobaczyłem na wykresie?"></textarea></div>
+        <div class="full"><label>🧠 Psychologia</label><textarea id="psychology" placeholder="FOMO? Spokój? Odwet? Czy trzymałem plan?"></textarea></div>
+        <div class="full"><label>✅ Co zrobiłem dobrze?</label><textarea id="good"></textarea></div>
+        <div class="full"><label>❌ Co zrobiłem źle / co poprawić?</label><textarea id="bad"></textarea></div>
+        <div class="full"><label>💡 Wniosek</label><textarea id="lesson"></textarea></div>
+      </div>
+      <div class="form-actions"><button class="primary" onclick="saveTrade()">💾 ZAPISZ TRADE</button></div>
+    </div>
+  </div>
+
+  <div id="historyTab" style="display:none">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div><h3 style="margin:0">📚 Historia</h3><div class="note" id="historyCount" style="margin-top:4px">0 transakcji</div></div><div class="history-tools"><button class="danger" onclick="clearTrades()">Wyczyść</button></div>
+      </div>
+      <div id="tradeList" class="trade-list"></div>
+    </div>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section id="guide" class="page">
+  <button class="back" onclick="showPage('start')">← Wróć do strony głównej</button>
+  <div class="hero" style="text-align:left">
+    <div class="nova">NOVA</div>
+    <h2 style="font-size:42px">📚 PRZEWODNIK <span>TRADERA</span></h2>
+    <p>Najważniejsze pojęcia używane w dzienniku — prosto i bez zbędnego komplikowania.</p>
+  </div>
+  <div class="panel" style="margin-top:18px">
+    <div class="guide-note">Przewodnik jest częścią dziennika: najpierw poznaj podstawowe pojęcia, potem zapisuj transakcje, a na końcu wracaj do historii i szukaj powtarzających się błędów oraz dobrych decyzji.</div>
+    <div class="course" style="margin-top:14px">
+      <div class="course-card"><h3><span class="course-number">1</span>Podstawy transakcji</h3><p><b>Instrument</b> określa rynek, na którym działasz. <b>BUY</b> oznacza założenie wzrostu ceny, a <b>SELL</b> — spadku.</p><ul><li><b>ENTRY</b> — cena wejścia.</li><li><b>SL</b> — poziom, przy którym realizujesz zaplanowane ograniczenie straty.</li><li><b>TP</b> — poziom zaplanowanej realizacji zysku.</li></ul></div>
+      <div class="course-card"><h3><span class="course-number">2</span>Zarządzanie ryzykiem</h3><p>W dzienniku zapisujesz <b>ryzyko (%)</b> i <b>wielkość pozycji</b>, aby po czasie sprawdzić, czy Twoje decyzje były zgodne z własnym planem.</p><ul><li>Nie oceniaj jakości trade'u wyłącznie po wyniku finansowym.</li><li>Porównuj wynik z tym, jakie ryzyko było zaplanowane.</li></ul></div>
+      <div class="course-card"><h3><span class="course-number">3</span>Setup i powód wejścia</h3><p><b>Setup</b> to układ sytuacji rynkowej, na podstawie którego podejmujesz decyzję. W polu „Powód wejścia” zapisz konkretnie, co zobaczyłeś na wykresie.</p><ul><li>Dodaj własną ocenę setupu A–F.</li><li>Jeśli korzystasz ze screenshotów, zachowuj je jako punkt odniesienia.</li></ul></div>
+      <div class="course-card"><h3><span class="course-number">4</span>Psychologia tradera</h3><p>Zapisuj stan przed wejściem oraz zachowanie podczas transakcji. Szczególnie zwracaj uwagę na <b>FOMO</b>, stres, odwet i trzymanie się planu.</p><ul><li>Emocje nie są wynikiem trade'u — są informacją o Twoim procesie decyzyjnym.</li><li>Porównuj je później z historią transakcji.</li></ul></div>
+      <div class="course-card"><h3><span class="course-number">5</span>Jak korzystać z dziennika</h3><p>Po każdej transakcji zapisz najważniejsze dane, a po zakończeniu tygodnia przeanalizuj całość.</p><ul><li><b>Nowy trade</b> → zapisujesz decyzję i jej kontekst.</li><li><b>Historia</b> → wracasz do wcześniejszych transakcji.</li><li><b>Wyniki tygodniowe</b> → oceniasz proces, nie tylko pieniądze.</li></ul></div>
+      <div class="course-card"><h3><span class="course-number">6</span>Najważniejsza zasada</h3><p>Dobry dziennik nie ma pokazywać wyłącznie zwycięskich transakcji. Ma pokazywać <b>dlaczego podjąłeś decyzję</b> i czego możesz się z niej nauczyć.</p></div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:18px">
+    <button class="glossary-tile" onclick="showPage('glossary')">
+      <div>
+        <strong>📖 Słownik pojęć</strong>
+        <span>BUY, SELL, ENTRY, SL, TP, ryzyko i najważniejsze pojęcia</span>
+      </div>
+      <div class="glossary-arrow">→</div>
+    </button>
+  </div>
+</section>
+
+<!-- GLOSSARY -->
+<section id="glossary" class="page">
+  <button class="back" onclick="showPage('guide')">← Wróć do przewodnika</button>
+  <div class="hero" style="text-align:left">
+    <div class="nova">NOVA</div>
+    <h2 style="font-size:42px">📖 SŁOWNIK <span>POJĘĆ</span></h2>
+    <p>Najważniejsze pojęcia używane w dzienniku tradera — w jednym miejscu.</p>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <div class="guide">
+      <div class="term"><h3>💱 Instrument / waluta</h3><p>To rynek, na którym wykonujesz transakcję, np. EURUSD, XAUUSD albo BTCUSD.</p></div>
+      <div class="term"><h3>🟢 BUY</h3><p>Pozycja zakładająca wzrost ceny — kupujesz, licząc na ruch rynku w górę.</p></div>
+      <div class="term"><h3>🔴 SELL</h3><p>Pozycja zakładająca spadek ceny — sprzedajesz, licząc na ruch rynku w dół.</p></div>
+      <div class="term"><h3>🎯 ENTRY</h3><p>Cena, po której wchodzisz w transakcję.</p></div>
+      <div class="term"><h3>🛑 STOP LOSS (SL)</h3><p>Poziom zabezpieczenia, przy którym pozycja zostaje zamknięta, jeśli rynek pójdzie w niekorzystnym kierunku.</p></div>
+      <div class="term"><h3>🏆 TAKE PROFIT (TP)</h3><p>Poziom, przy którym realizujesz zaplanowany zysk.</p></div>
+      <div class="term"><h3>⚖️ Ryzyko (%)</h3><p>Procent kapitału, który planujesz maksymalnie ryzykować w danej transakcji.</p></div>
+      <div class="term"><h3>📦 Pozycja / lot</h3><p>Wielkość otwieranej pozycji. Jej znaczenie zależy od konkretnego instrumentu.</p></div>
+      <div class="term"><h3>📈 Setup / strategia</h3><p>Układ sytuacji rynkowej i zasady, które są podstawą Twojego wejścia.</p></div>
+      <div class="term"><h3>🧠 Psychologia</h3><p>Zapisujesz emocje i zachowanie podczas transakcji: FOMO, stres, spokój, odwet czy trzymanie planu.</p></div>
+      <div class="term"><h3>📊 Skuteczność</h3><p>Procent wygranych transakcji spośród wszystkich zapisanych transakcji.</p></div>
+      <div class="term"><h3>💰 Zysk / strata</h3><p>Finansowy rezultat transakcji. Wynik dodatni oznacza zysk, ujemny stratę.</p></div>
+      <div class="term"><h3>⭐ Ocena setupu</h3><p>Twoja ocena jakości okazji przed wejściem, np. A–F.</p></div>
+      <div class="term"><h3>📝 Wniosek</h3><p>Najważniejsza lekcja, którą chcesz zabrać z tej transakcji do kolejnych decyzji.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>NOVA • Dziennik Tradera • Twoje dane, Twoje decyzje</footer>
+</div>
+
+<script>
+const KEY='nova_trader_v2';
+const WEEK_KEY='nova_week_v2';
+let trades=JSON.parse(localStorage.getItem(KEY)||'[]');
+let weekData=JSON.parse(localStorage.getItem(WEEK_KEY)||'{}');
+document.getElementById('grade').value=weekData.grade||'';
+['weekGood','weekBad','weekLesson','weekPlan'].forEach(id=>{document.getElementById(id).value=weekData[id]||''});
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='journal') renderStats();
+  renderPeriodStats();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function journalTab(tab){
+  ['week','new','history'].forEach(x=>{
+    document.getElementById(x+'Tab').style.display=x===tab?'block':'none';
+    const b=document.getElementById('tab-'+x); if(b)b.classList.toggle('active',x===tab);
+  });
+  if(tab==='history') renderHistory();
+  if(tab==='week') renderStats();
+  renderPeriodStats();
+}
+function getWeekBounds(){
+  const now=new Date(); const day=(now.getDay()+6)%7;
+  const start=new Date(now); start.setHours(0,0,0,0); start.setDate(now.getDate()-day);
+  const end=new Date(start); end.setDate(start.getDate()+7); return {start,end};
+}
+function tradeDate(t){ const d=new Date(t.date); return isNaN(d)?null:d; }
+function currentWeekTrades(){ const {start,end}=getWeekBounds(); return trades.filter(t=>{const d=tradeDate(t);return d&&d>=start&&d<end}); }
+function formatDate(d){return d.toLocaleDateString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function saveGrade(){ weekData.grade=document.getElementById('grade').value; localStorage.setItem(WEEK_KEY,JSON.stringify(weekData)); renderStats();
+  renderPeriodStats(); }
+function saveWeekReflection(){
+  ['weekGood','weekBad','weekLesson','weekPlan'].forEach(id=>weekData[id]=document.getElementById(id).value.trim());
+  weekData.grade=document.getElementById('grade').value;
+  localStorage.setItem(WEEK_KEY,JSON.stringify(weekData));
+  alert('Podsumowanie tygodnia zapisane.');
+}
+function saveTrade(){
+  const t={id:Date.now(),date:document.getElementById('date').value||new Date().toISOString(),instrument:document.getElementById('instrument').value.trim(),direction:document.getElementById('direction').value,result:Number(document.getElementById('result').value||0),entry:document.getElementById('entry').value,sl:document.getElementById('sl').value,tp:document.getElementById('tp').value,risk:document.getElementById('risk').value,lot:document.getElementById('lot').value,setup:document.getElementById('setup').value,setupGrade:document.getElementById('setupGrade').value,emotion:document.getElementById('emotion').value,reason:document.getElementById('reason').value,psychology:document.getElementById('psychology').value,good:document.getElementById('good').value,bad:document.getElementById('bad').value,lesson:document.getElementById('lesson').value};
+  trades.unshift(t); localStorage.setItem(KEY,JSON.stringify(trades));
+  document.querySelectorAll('#newTab input,#newTab textarea').forEach(el=>{if(el.id!=='risk')el.value=''}); document.getElementById('risk').value='1';
+  alert('Trade zapisany.'); journalTab('history');
+}
+function renderStats(){
+  const wt=currentWeekTrades(), n=wt.length,w=wt.filter(t=>t.result>0).length,l=wt.filter(t=>t.result<0).length,sum=wt.reduce((a,t)=>a+Number(t.result||0),0);
+  document.getElementById('sTrades').textContent=n; document.getElementById('sWins').textContent=w; document.getElementById('sLosses').textContent=l; document.getElementById('sWinrate').textContent=(n?Math.round(w/n*100):0)+'%'; document.getElementById('sProfit').textContent=(sum>=0?'+':'')+'$'+sum.toFixed(2);
+  document.getElementById('weekGrade').textContent=weekData.grade||'—'; document.getElementById('grade').value=weekData.grade||'';
+  const vals=wt.map(t=>Number(t.result||0)); document.getElementById('best').textContent=vals.length?'$'+Math.max(...vals).toFixed(2):'$0.00'; document.getElementById('worst').textContent=vals.length?'$'+Math.min(...vals).toFixed(2):'$0.00';
+  const {start,end}=getWeekBounds(); document.getElementById('weekRange').textContent=formatDate(start)+' – '+formatDate(new Date(end-1));
+}
+function renderHistory(){
+  const box=document.getElementById('tradeList'); document.getElementById('historyCount').textContent=trades.length+' '+(trades.length===1?'transakcja':'transakcji');
+  if(!trades.length){box.innerHTML='<p class="note" style="text-align:center;padding:25px">Historia jest pusta. Dodaj pierwszy trade i zacznij budować historię.</p>';return}
+  box.innerHTML=trades.map((t,i)=>{
+    const d=tradeDate(t); const date=d?d.toLocaleString('pl-PL'):t.date; const cls=t.direction==='BUY'?'buy':'sell'; const result=Number(t.result||0);
+    return `<div class="trade"><div class="trade-head"><div><strong>${esc(t.instrument||'Bez instrumentu')}</strong><div class="trade-meta">${date}</div></div><span class="badge ${cls}">${esc(t.direction)}</span></div>
+      <div class="trade-meta">Wynik: <b style="color:${result>=0?'#67dfa9':'#ff8790'}">${result>=0?'+':''}$${result.toFixed(2)}</b> • Setup: ${esc(t.setup||'—')} • Ocena: ${esc(t.setupGrade||'—')}</div>
+      <button class="detail-btn" onclick="toggleDetail(${t.id})">Zobacz szczegóły →</button>
+      <div id="detail-${t.id}" class="trade-detail"><div class="detail-grid">
+        <div>ENTRY: <b>${esc(t.entry||'—')}</b></div><div>SL: <b>${esc(t.sl||'—')}</b></div><div>TP: <b>${esc(t.tp||'—')}</b></div><div>Ryzyko: <b>${esc(t.risk||'—')}%</b></div><div>Pozycja: <b>${esc(t.lot||'—')}</b></div><div>Emocje: <b>${esc(t.emotion||'—')}/10</b></div>
+        <div>Powód wejścia: <b>${esc(t.reason||'—')}</b></div><div>Psychologia: <b>${esc(t.psychology||'—')}</b></div><div>Co zrobiłem dobrze: <b>${esc(t.good||'—')}</b></div><div>Co poprawić: <b>${esc(t.bad||'—')}</b></div><div>Wniosek: <b>${esc(t.lesson||'—')}</b></div>
+      </div></div></div>`;
+  }).join('');
+}
+function toggleDetail(id){const el=document.getElementById('detail-'+id); if(el)el.classList.toggle('open');}
+function clearTrades(){if(confirm('Na pewno wyczyścić całą historię?')){trades=[];localStorage.setItem(KEY,'[]');renderHistory();renderStats();
+  renderPeriodStats();}}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+renderStats();
+  renderPeriodStats();
+</script>
+<script>
+let statsPeriod = 'day';
+
+function getTradeDate(t){
+  const raw = t.date || t.datetime || t.createdAt || '';
+  const d = new Date(raw);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function startOfWeek(d){
+  const x = startOfDay(d), day = x.getDay();
+  x.setDate(x.getDate() + (day === 0 ? -6 : 1 - day));
+  return x;
+}
+function getStatsRange(period){
+  const now = new Date();
+  if(period === 'all') return {start:null,end:null,label:'Wszystkie transakcje'};
+  let start = startOfDay(now);
+  if(period === 'week') start = startOfWeek(now);
+  if(period === 'month') start = new Date(now.getFullYear(), now.getMonth(), 1);
+  if(period === 'year') start = new Date(now.getFullYear(), 0, 1);
+  const labels = {day:'Dzisiaj',week:'Ten tydzień',month:'Ten miesiąc',year:'Ten rok'};
+  return {start,end:now,label:labels[period]};
+}
+function setStatsPeriod(period){
+  statsPeriod = period;
+  document.querySelectorAll('.period-tab').forEach(b => b.classList.toggle('active', b.dataset.period === period));
+  renderPeriodStats();
+}
+function renderPeriodStats(){
+  const range = getStatsRange(statsPeriod);
+  const all = Array.isArray(trades) ? trades : [];
+  const filtered = range.start ? all.filter(t => {
+    const d = getTradeDate(t);
+    return d && d >= range.start && d <= range.end;
+  }) : all;
+
+  let wins=0, losses=0, profit=0;
+  filtered.forEach(t => {
+    const value = Number(t.result ?? t.profit ?? t.pnl ?? 0) || 0;
+    profit += value;
+    if(value > 0) wins++;
+    else if(value < 0) losses++;
+  });
+
+  const closed = wins + losses;
+  const winrate = closed ? (wins / closed) * 100 : 0;
+  const set = (id,value) => { const el=document.getElementById(id); if(el) el.textContent=value; };
+
+  set('statsPeriodLabel', range.label);
+  set('sumTrades', filtered.length);
+  set('sumWins', wins);
+  set('sumLosses', losses);
+  set('sumWinrate', winrate.toFixed(1) + '%');
+  set('sumProfit', '$' + profit.toFixed(2));
+}
+</script>
+</body>
+</html>
